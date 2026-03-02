@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, BtnApprove, Card3, PageShell } from "./ui";
 import { ChartMorphRing } from "./Charts";
+import { EXPENSE_DATA } from "../lib/chartData";
 
 function JournalLedger({ compact, acctFilter, onAcctFilter }) {
   const [editRow, setEditRow] = useState(null);
@@ -1155,4 +1156,4 @@ function BooksPage() {
 
 /* ═══════════════════════ PLAN — Timeline + Filing ═══════════════════════ */
 
-export { JournalLedger, FilingForms, MonthlyLedger, BooksPage };
+export { JournalLedger, FilingForms, MonthlyLedger, BooksPage, FORM_DEFS };

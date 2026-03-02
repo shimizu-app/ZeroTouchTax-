@@ -49,6 +49,13 @@ const InputIconFileText = ({ size = 16, color = "currentColor" }) => (
   </svg>
 );
 
+const LINES = [
+  "税務調査を、\nあなたの味方に。",
+  "書類をアップロード。\nそれだけで審査が始まる。",
+  "調査官の目線で\nリスクを洗い出す。",
+  "修正すべき箇所を\nひとつずつ、案内する。",
+];
+
 function CyclingText({ started, hidden }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(false);
