@@ -835,4 +835,4 @@ function Intake({ onDone }) {
 
 /* ════════════════════════════════ SIDEBAR ════════════════════════════════ */
 
-export { Intake, HoloBadge, ArchetypeResult };
+export { Intake, HoloBadge, ArchetypeResult, COMPANY_TYPES };

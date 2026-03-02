@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, Card3, PageShell } from "./ui";
 import { ChartWaveArea, ChartMorphRing, ChartRunwayBar } from "./Charts";
-import { HoloBadge } from "./Intake";
+import { HoloBadge, COMPANY_TYPES } from "./Intake";
 
 function MissingDocsPanel({ missing, sevColor, sevLabel }) {
   const [open, setOpen] = useState(false);

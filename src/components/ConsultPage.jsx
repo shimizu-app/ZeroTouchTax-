@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, Card3, PageShell, PressableCard } from "./ui";
-import { HoloBadge } from "./Intake";
+import { HoloBadge, COMPANY_TYPES } from "./Intake";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
