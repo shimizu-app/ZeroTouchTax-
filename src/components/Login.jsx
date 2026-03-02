@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import * as THREE from "three";
 import { C, hd, bd, mono, FONT } from "../lib/theme";
 import { Rv, Mag, Card3, WireCanvas } from "./ui";
 

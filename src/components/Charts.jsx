@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { CHART_DATA_6, CHART_DATA_12, EXPENSE_DATA } from "../lib/chartData";
 
@@ -217,8 +217,8 @@ function ChartRunwayBar() {
           const change = ((d.revenue - prev.revenue) / prev.revenue * 100).toFixed(1);
           return (
             <div style={{ padding:"12px 4px 6px", borderTop:"1px solid rgba(139,123,244,.06)", display:"flex", alignItems:"center", gap:24, background:"linear-gradient(180deg, rgba(139,123,244,.03), transparent)" }}>
-              <div style={{ fontFamily:"'Outfit', sans-serif", fontSize:32, fontWeight:300, color:"#fff", letterSpacing:"-.03em", textShadow:"0 0 18px rgba(255,255,255,.25), 0 0 44px rgba(255,255,255,.06)", minWidth:110 }}>{"00A5"}{Math.round(d.revenue*100).toLocaleString()}万</div>
-              <div><div style={{ fontSize:10, color:"#C8C8D8", fontFamily:"'JetBrains Mono', monospace", marginBottom:2 }}>利益</div><div style={{ fontFamily:"'Outfit', sans-serif", fontSize:18, fontWeight:300, color:"#7BE0A0", textShadow:"0 0 10px rgba(123,224,160,.2)" }}>{"00A5"}{Math.round(d.profit*100).toLocaleString()}万</div></div>
+              <div style={{ fontFamily:"'Outfit', sans-serif", fontSize:32, fontWeight:300, color:"#fff", letterSpacing:"-.03em", textShadow:"0 0 18px rgba(255,255,255,.25), 0 0 44px rgba(255,255,255,.06)", minWidth:110 }}>{"\u00A5"}{Math.round(d.revenue*100).toLocaleString()}万</div>
+              <div><div style={{ fontSize:10, color:"#C8C8D8", fontFamily:"'JetBrains Mono', monospace", marginBottom:2 }}>利益</div><div style={{ fontFamily:"'Outfit', sans-serif", fontSize:18, fontWeight:300, color:"#7BE0A0", textShadow:"0 0 10px rgba(123,224,160,.2)" }}>{"\u00A5"}{Math.round(d.profit*100).toLocaleString()}万</div></div>
               <div><div style={{ fontSize:10, color:"#C8C8D8", fontFamily:"'JetBrains Mono', monospace", marginBottom:2 }}>前月比</div><div style={{ fontFamily:"'Outfit', sans-serif", fontSize:18, fontWeight:300, color:change>=0?"#fff":"#E87070" }}>{change>=0?"+":""}{change}%</div></div>
               <div><div style={{ fontSize:10, color:"#C8C8D8", fontFamily:"'JetBrains Mono', monospace", marginBottom:2 }}>利益率</div><div style={{ fontFamily:"'Outfit', sans-serif", fontSize:18, fontWeight:300, color:"rgba(255,255,255,.6)" }}>{((d.profit/d.revenue)*100).toFixed(1)}%</div></div>
             </div>

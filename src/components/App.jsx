@@ -12,6 +12,7 @@ import ConsultPage from "./ConsultPage";
 import { FileBoxPage, InputPage } from "./InputPage";
 import DocIssuePage from "./DocIssuePage";
 import { Workspace, CommandPalette, NotificationPanel, SettingsPage, UploadModal } from "./Workspace";
+import { Mag } from "./ui";
 
 export default function App() {
   const [scr, setScr] = useState("login");
