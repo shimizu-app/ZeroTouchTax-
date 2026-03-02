@@ -3,6 +3,52 @@ import * as THREE from "three";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, Card3, PageShell, BtnApprove } from "./ui";
 
+const InputIconCamera = ({ size = 38, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>
+  </svg>
+);
+const InputIconFolder = ({ size = 38, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+    <line x1="12" y1="11" x2="12" y2="17"/><polyline points="9 14 12 11 15 14"/>
+  </svg>
+);
+const InputIconTable = ({ size = 38, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2"/>
+    <line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/>
+    <line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>
+  </svg>
+);
+const InputIconScan = ({ size = 28, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 7V2h5"/><path d="M22 7V2h-5"/><path d="M2 17v5h5"/><path d="M22 17v5h-5"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+);
+const InputIconUpArrow = ({ size = 28, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+);
+const InputIconBolt = ({ size = 28, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </svg>
+);
+const InputIconCheck = ({ size = 14, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+  </svg>
+);
+const InputIconFileText = ({ size = 16, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+    <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+  </svg>
+);
+
 function CyclingText({ started, hidden }) {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -1066,4 +1112,4 @@ function InputPage() {
 
 /* ════════════════════════════════ SETTINGS PAGE ════════════════════════════════ */
 
-export { FileBoxPage, InputPage, GlossyButton, ClientGlossyButton, MarbleScreen, SideNavGlossyButton, MarblePill };
+export { FileBoxPage, InputPage, GlossyButton, ClientGlossyButton, MarbleScreen, SideNavGlossyButton, MarblePill, CyclingText, Folder3D, Calc3D };

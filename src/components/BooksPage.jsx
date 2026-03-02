@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, BtnApprove, Card3, PageShell } from "./ui";
+import { ChartMorphRing } from "./Charts";
 
 function JournalLedger({ compact, acctFilter, onAcctFilter }) {
   const [editRow, setEditRow] = useState(null);

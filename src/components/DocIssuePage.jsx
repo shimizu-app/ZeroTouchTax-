@@ -2,6 +2,12 @@ import React, { useState, useRef } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
 import { Rv, Mag, Card3, PageShell } from "./ui";
 
+const EF = ({ value, onChange, style, placeholder, type = "text" }) => (
+  <input type={type} value={value ?? ""} placeholder={placeholder}
+    onChange={e => onChange(e.target.value)}
+    style={{ background:"transparent", border:"none", outline:"none", fontFamily:"inherit", fontSize:"inherit", color:"inherit", padding:0, ...style }} />
+);
+
 function DocIssuePage() {
   const [activeCat, setActiveCat] = useState("取引");
   const [activeDoc, setActiveDoc] = useState(null);

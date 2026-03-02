@@ -3,6 +3,12 @@ import { C, hd, bd, mono, FONT } from "../lib/theme";
 import { Rv, Mag, Card3, PageShell, BtnApprove } from "./ui";
 import { ClientGlossyButton } from "./InputPage";
 
+const Toggle = ({ on, onClick }) => (
+  <div onClick={onClick} style={{ width:44, height:24, borderRadius:12, background: on ? "rgba(139,123,244,.5)" : "rgba(255,255,255,.08)", border: on ? "1px solid rgba(139,123,244,.6)" : "1px solid rgba(255,255,255,.12)", cursor:"pointer", position:"relative", transition:"all .25s cubic-bezier(.16,1,.3,1)", flexShrink:0 }}>
+    <div style={{ position:"absolute", top:3, left: on ? 23 : 3, width:16, height:16, borderRadius:"50%", background: on ? "#A89BFF" : "#6A6A84", transition:"all .25s cubic-bezier(.16,1,.3,1)", boxShadow: on ? "0 0 8px rgba(168,155,255,.5)" : "none" }} />
+  </div>
+);
+
 function Workspace({ onSelect, onNew }) {
   const [hover, setHover] = useState(null);
   const companies = [];
