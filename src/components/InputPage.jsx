@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as THREE from "three";
 import { C, hd, bd, mono } from "../lib/theme";
-import { Rv, Mag, Card3, PageShell } from "./ui";
+import { Rv, Mag, Card3, PageShell, BtnApprove } from "./ui";
 
 function CyclingText({ started, hidden }) {
   const [idx, setIdx] = useState(0);

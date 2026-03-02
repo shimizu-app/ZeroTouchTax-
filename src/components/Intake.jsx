@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono, FONT } from "../lib/theme";
-import { Rv, Mag, Card3, WireCanvas } from "./ui";
+import { Rv, Mag, Card3, WireCanvas, KL } from "./ui";
 
 function JapanMap({ selected, onSelect }) {
   const [hover, setHover] = useState(null);
