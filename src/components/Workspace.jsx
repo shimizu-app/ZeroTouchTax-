@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { C, hd, bd, mono } from "../lib/theme";
-import { Rv, Mag, Card3 } from "./ui";
+import { C, hd, bd, mono, FONT } from "../lib/theme";
+import { Rv, Mag, Card3, PageShell, BtnApprove } from "./ui";
 import { ClientGlossyButton } from "./InputPage";
 
 function Workspace({ onSelect, onNew }) {
