@@ -12,11 +12,7 @@ function DocIssuePage() {
   const [activeCat, setActiveCat] = useState("取引");
   const [activeDoc, setActiveDoc] = useState(null);
   const [editData, setEditData] = useState({});
-  const [issued, setIssued] = useState([
-    { id:"ISS-001", type:"請求書", partner:"AWS Japan", amount:248000, date:"2026/02/18", status:"送付済" },
-    { id:"ISS-002", type:"見積書", partner:"山田商事", amount:1500000, date:"2026/02/15", status:"下書き" },
-    { id:"ISS-003", type:"領収書", partner:"スターバックス", amount:1200, date:"2026/02/18", status:"発行済" },
-  ]);
+  const [issued, setIssued] = useState([]);
   const [tab, setTab] = useState("templates");
   const [aiOpen, setAiOpen] = useState(true);
   const [aiInput, setAiInput] = useState("");
@@ -309,10 +305,10 @@ function DocIssuePage() {
     <input type={type||"text"} value={value===0&&type==="number"?"":value??""}
       onChange={e => onChange(type==="number" ? (e.target.value===""?0:Number(e.target.value)) : e.target.value)}
       placeholder={placeholder||""}
-      style={{ background:"transparent", border:"1px solid #e0e0e8", borderRadius:4, outline:"none",
-        color:"#1a1a2e", fontFamily:bd, padding:"4px 6px", fontSize:12, boxSizing:"border-box", ...s }}
-      onFocus={e=>{e.target.style.borderColor="#4466EE";e.target.style.background="rgba(68,102,238,.04)";}}
-      onBlur={e=>{e.target.style.borderColor="#e0e0e8";e.target.style.background="transparent";}}
+      style={{ background:"transparent", border:`1px solid ${C.border}`, borderRadius:4, outline:"none",
+        color:C.text, fontFamily:bd, padding:"4px 6px", fontSize:12, boxSizing:"border-box", ...s }}
+      onFocus={e=>{e.target.style.borderColor=C.purple;e.target.style.background=C.purpleBg;}}
+      onBlur={e=>{e.target.style.borderColor=C.border;e.target.style.background="transparent";}}
       {...rest} />
   );
 
@@ -339,65 +335,65 @@ function DocIssuePage() {
         <div style={{ display:"flex", gap:16, alignItems:"flex-start" }}>
         {/* ── Document preview (left) ── */}
         <div style={{ flex:1, minWidth:0 }}>
-        <Rv d={10}><div style={{ background:"#fff", borderRadius:12, padding:"48px 56px", maxWidth:760, boxShadow:"0 8px 40px rgba(0,0,0,.4)", color:"#1a1a2e", fontFamily:bd }}>
+        <Rv d={10}><div style={{ background:"rgba(12,12,22,.97)", borderRadius:12, padding:"48px 56px", maxWidth:760, boxShadow:"0 8px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(139,123,244,.08)", color:C.text, fontFamily:bd }}>
 
           {/* ── Title ── */}
           <div style={{ textAlign:"center", marginBottom:28 }}>
-            <div style={{ fontSize:28, fontWeight:700, letterSpacing:".15em", color:"#1a1a2e", marginBottom:6 }}>{d.title}</div>
-            <div style={{ fontSize:11, color:"#888", display:"flex", justifyContent:"center", alignItems:"center", gap:4 }}>No. <EF value={d.num} onChange={v=>updateField("num",v)} style={{ width:150, textAlign:"center", fontSize:11, border:"1px solid #ddd" }} /></div>
+            <div style={{ fontSize:28, fontWeight:700, letterSpacing:".15em", color:C.text, marginBottom:6 }}>{d.title}</div>
+            <div style={{ fontSize:11, color:C.textMut, display:"flex", justifyContent:"center", alignItems:"center", gap:4 }}>No. <EF value={d.num} onChange={v=>updateField("num",v)} style={{ width:150, textAlign:"center", fontSize:11, border:`1px solid ${C.border}` }} /></div>
           </div>
 
           {/* ── Partner / Date row ── */}
           <div style={{ display:"flex", justifyContent:"space-between", marginBottom:24, gap:24 }}>
             <div style={{ flex:1 }}>
-              <div style={{ borderBottom:"2px solid #1a1a2e", paddingBottom:6, marginBottom:6 }}>
-                <EF value={d.partner} onChange={v=>updateField("partner",v)} placeholder="取引先名を入力" style={{ fontSize:16, fontWeight:700, width:"100%", border:"none", borderBottom:"1px dashed #ccc" }} />
+              <div style={{ borderBottom:`2px solid ${C.border}`, paddingBottom:6, marginBottom:6 }}>
+                <EF value={d.partner} onChange={v=>updateField("partner",v)} placeholder="取引先名を入力" style={{ fontSize:16, fontWeight:700, width:"100%", border:"none", borderBottom:`1px dashed ${C.border}` }} />
                 <span style={{ fontSize:14, marginLeft:4 }}>御中</span>
               </div>
               {cfg.hasPartnerAddr && <>
-                <EF value={d.partnerAddr} onChange={v=>updateField("partnerAddr",v)} placeholder="取引先住所" style={{ fontSize:10, width:"100%", marginBottom:3, color:"#666" }} />
-                <EF value={d.partnerTel} onChange={v=>updateField("partnerTel",v)} placeholder="取引先 TEL" style={{ fontSize:10, width:"100%", color:"#666" }} />
+                <EF value={d.partnerAddr} onChange={v=>updateField("partnerAddr",v)} placeholder="取引先住所" style={{ fontSize:10, width:"100%", marginBottom:3, color:C.textMut }} />
+                <EF value={d.partnerTel} onChange={v=>updateField("partnerTel",v)} placeholder="取引先 TEL" style={{ fontSize:10, width:"100%", color:C.textMut }} />
               </>}
               {cfg.hasDeliveryAddr && <div style={{ marginTop:8 }}>
-                <div style={{ fontSize:9, color:"#999", marginBottom:2 }}>納品先住所</div>
-                <EF value={d.deliveryAddr} onChange={v=>updateField("deliveryAddr",v)} placeholder="納品先住所を入力" style={{ fontSize:10, width:"100%", color:"#666" }} />
+                <div style={{ fontSize:9, color:C.textMut, marginBottom:2 }}>納品先住所</div>
+                <EF value={d.deliveryAddr} onChange={v=>updateField("deliveryAddr",v)} placeholder="納品先住所を入力" style={{ fontSize:10, width:"100%", color:C.textMut }} />
               </div>}
             </div>
             <div style={{ minWidth:180, textAlign:"right" }}>
-              <div style={{ fontSize:9, color:"#999", marginBottom:2 }}>発行日</div>
+              <div style={{ fontSize:9, color:C.textMut, marginBottom:2 }}>発行日</div>
               <EF value={d.issueDate} onChange={v=>updateField("issueDate",v)} style={{ fontSize:12, textAlign:"right", width:140, marginBottom:8 }} />
-              {cfg.hasDueDate && <><div style={{ fontSize:9, color:"#999", marginBottom:2 }}>支払期限</div>
+              {cfg.hasDueDate && <><div style={{ fontSize:9, color:C.textMut, marginBottom:2 }}>支払期限</div>
                 <EF value={d.dueDate} onChange={v=>updateField("dueDate",v)} placeholder="例: 2026/03/31" style={{ fontSize:12, textAlign:"right", width:140, marginBottom:8 }} /></>}
-              {cfg.hasValidity && <><div style={{ fontSize:9, color:"#999", marginBottom:2 }}>有効期限</div>
+              {cfg.hasValidity && <><div style={{ fontSize:9, color:C.textMut, marginBottom:2 }}>有効期限</div>
                 <EF value={d.validity} onChange={v=>updateField("validity",v)} placeholder="発行日より30日間" style={{ fontSize:12, textAlign:"right", width:140, marginBottom:8 }} /></>}
-              {cfg.hasContractPeriod && <><div style={{ fontSize:9, color:"#999", marginBottom:2 }}>契約期間</div>
+              {cfg.hasContractPeriod && <><div style={{ fontSize:9, color:C.textMut, marginBottom:2 }}>契約期間</div>
                 <EF value={d.contractStart} onChange={v=>updateField("contractStart",v)} placeholder="開始日" style={{ fontSize:11, textAlign:"right", width:140, marginBottom:2 }} />
-                <span style={{ fontSize:10, color:"#999" }}> 〜 </span>
+                <span style={{ fontSize:10, color:C.textMut }}> 〜 </span>
                 <EF value={d.contractEnd} onChange={v=>updateField("contractEnd",v)} placeholder="終了日" style={{ fontSize:11, textAlign:"right", width:140 }} /></>}
-              {cfg.hasPayMethod && <><div style={{ fontSize:9, color:"#999", marginBottom:2, marginTop:8 }}>支払方法</div>
+              {cfg.hasPayMethod && <><div style={{ fontSize:9, color:C.textMut, marginBottom:2, marginTop:8 }}>支払方法</div>
                 <EF value={d.payMethod} onChange={v=>updateField("payMethod",v)} placeholder="現金 / 振込 / カード" style={{ fontSize:11, textAlign:"right", width:140 }} /></>}
-              {cfg.hasApprover && <><div style={{ fontSize:9, color:"#999", marginBottom:2, marginTop:8 }}>承認者</div>
+              {cfg.hasApprover && <><div style={{ fontSize:9, color:C.textMut, marginBottom:2, marginTop:8 }}>承認者</div>
                 <EF value={d.approver} onChange={v=>updateField("approver",v)} placeholder="承認者名" style={{ fontSize:11, textAlign:"right", width:140 }} /></>}
             </div>
           </div>
 
           {/* ── Total banner (for item-based docs) ── */}
-          {hasItemTable && <div style={{ background:"#f4f4f8", borderRadius:8, padding:"14px 20px", marginBottom:24, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          {hasItemTable && <div style={{ background:C.surfAlt, borderRadius:8, padding:"14px 20px", marginBottom:24, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
             <span style={{ fontSize:13, fontWeight:600 }}>合計金額（税込）</span>
             <span style={{ fontSize:24, fontWeight:700 }}>{fmt(calc.total)}</span>
           </div>}
 
           {/* ── Single amount (for depositConf etc) ── */}
-          {cfg.hasAmount && !hasItemTable && <div style={{ background:"#f4f4f8", borderRadius:8, padding:"14px 20px", marginBottom:24 }}>
-            <div style={{ fontSize:11, color:"#666", marginBottom:4 }}>金額</div>
-            <EF type="number" value={d.singleAmount} onChange={v=>updateField("singleAmount",v)} style={{ fontSize:24, fontWeight:700, width:240, border:"none", borderBottom:"2px solid #1a1a2e" }} />
+          {cfg.hasAmount && !hasItemTable && <div style={{ background:C.surfAlt, borderRadius:8, padding:"14px 20px", marginBottom:24 }}>
+            <div style={{ fontSize:11, color:C.textMut, marginBottom:4 }}>金額</div>
+            <EF type="number" value={d.singleAmount} onChange={v=>updateField("singleAmount",v)} style={{ fontSize:24, fontWeight:700, width:240, border:"none", borderBottom:`2px solid ${C.border}` }} />
           </div>}
 
           {/* ── Items table (invoices, estimates, etc.) ── */}
           {hasItemTable && <>
             <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12, marginBottom:16 }}>
               <thead>
-                <tr style={{ borderBottom:"2px solid #1a1a2e" }}>
+                <tr style={{ borderBottom:`2px solid ${C.border}` }}>
                   <th style={{ textAlign:"left", padding:"8px 4px", fontWeight:600, width:"40%" }}>品目</th>
                   <th style={{ textAlign:"right", padding:"8px 4px", fontWeight:600, width:"10%" }}>数量</th>
                   <th style={{ textAlign:"center", padding:"8px 4px", fontWeight:600, width:"10%" }}>単位</th>
@@ -410,24 +406,24 @@ function DocIssuePage() {
                 {(d.rows||[]).map((row, idx) => {
                   const lineTotal = (Number(row.qty)||0) * (Number(row.price)||0);
                   return (
-                    <tr key={idx} style={{ borderBottom:"1px solid #eee" }}>
+                    <tr key={idx} style={{ borderBottom:`1px solid ${C.border}` }}>
                       <td style={{ padding:"6px 4px" }}><EF value={row.item} onChange={v=>updateRow(idx,"item",v)} placeholder="品目名を入力" style={{ width:"100%" }} /></td>
                       <td style={{ padding:"6px 4px" }}><EF type="number" value={row.qty} onChange={v=>updateRow(idx,"qty",v)} style={{ width:56, textAlign:"right" }} /></td>
                       <td style={{ padding:"6px 4px" }}><EF value={row.unit} onChange={v=>updateRow(idx,"unit",v)} style={{ width:44, textAlign:"center" }} /></td>
                       <td style={{ padding:"6px 4px" }}><EF type="number" value={row.price} onChange={v=>updateRow(idx,"price",v)} style={{ width:100, textAlign:"right" }} /></td>
                       <td style={{ padding:"6px 4px", textAlign:"right", fontWeight:600, fontFamily:mono, fontSize:12 }}>{fmt(lineTotal)}</td>
-                      <td style={{ padding:"6px 2px" }}>{(d.rows||[]).length>1 && <span onClick={()=>removeRow(idx)} style={{ cursor:"pointer", color:"#ccc", fontSize:14, userSelect:"none" }}>×</span>}</td>
+                      <td style={{ padding:"6px 2px" }}>{(d.rows||[]).length>1 && <span onClick={()=>removeRow(idx)} style={{ cursor:"pointer", color:C.textMut, fontSize:14, userSelect:"none" }}>×</span>}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:20 }}>
-              <button onClick={addRow} type="button" style={{ padding:"6px 16px", borderRadius:8, border:"1.5px dashed #ccc", background:"transparent", color:"#888", fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
+              <button onClick={addRow} type="button" style={{ padding:"6px 16px", borderRadius:8, border:`1.5px dashed ${C.border}`, background:"transparent", color:C.textMut, fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
               <div style={{ textAlign:"right", minWidth:200 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", padding:"4px 0", fontSize:12 }}><span>小計</span><span style={{ fontFamily:mono }}>{fmt(calc.subtotal)}</span></div>
                 <div style={{ display:"flex", justifyContent:"space-between", padding:"4px 0", fontSize:12 }}><span>消費税（10%）</span><span style={{ fontFamily:mono }}>{fmt(calc.tax)}</span></div>
-                <div style={{ display:"flex", justifyContent:"space-between", padding:"6px 0", fontSize:14, fontWeight:700, borderTop:"2px solid #1a1a2e", marginTop:4 }}><span>合計</span><span style={{ fontFamily:mono }}>{fmt(calc.total)}</span></div>
+                <div style={{ display:"flex", justifyContent:"space-between", padding:"6px 0", fontSize:14, fontWeight:700, borderTop:`2px solid ${C.border}`, marginTop:4 }}><span>合計</span><span style={{ fontFamily:mono }}>{fmt(calc.total)}</span></div>
               </div>
             </div>
           </>}
@@ -444,19 +440,19 @@ function DocIssuePage() {
                   const c2 = [...(d.clauses||[])]; c2[idx] = { ...c2[idx], text:e.target.value };
                   updateField("clauses", c2);
                 }} rows={Math.max(3, (cl.text||"").split("\n").length + 1)}
-                  style={{ width:"100%", border:"1px solid #e0e0e8", borderRadius:4, padding:"6px 8px", fontSize:11, fontFamily:bd, color:"#1a1a2e", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.7 }}
-                  onFocus={e=>{e.target.style.borderColor="#4466EE";}} onBlur={e=>{e.target.style.borderColor="#e0e0e8";}} />
+                  style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:4, padding:"6px 8px", fontSize:11, fontFamily:bd, color:C.text, background:"transparent", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.7 }}
+                  onFocus={e=>{e.target.style.borderColor=C.purple;}} onBlur={e=>{e.target.style.borderColor=C.border;}} />
               </div>
             ))}
             <button onClick={() => updateField("clauses", [...(d.clauses||[]), { title:"第"+(((d.clauses||[]).length)+1)+"条（）", text:"" }])} type="button"
-              style={{ padding:"6px 16px", borderRadius:8, border:"1.5px dashed #ccc", background:"transparent", color:"#888", fontSize:11, cursor:"pointer" }}>+ 条項を追加</button>
+              style={{ padding:"6px 16px", borderRadius:8, border:`1.5px dashed ${C.border}`, background:"transparent", color:C.textMut, fontSize:11, cursor:"pointer" }}>+ 条項を追加</button>
           </div>}
 
           {/* ── Slip fields (伝票) ── */}
           {cfg.hasSlipFields && <div style={{ marginBottom:20 }}>
             <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12, marginBottom:10 }}>
               <thead>
-                <tr style={{ borderBottom:"2px solid #1a1a2e" }}>
+                <tr style={{ borderBottom:`2px solid ${C.border}` }}>
                   <th style={{ textAlign:"left", padding:"8px 4px", fontWeight:600 }}>日付</th>
                   {activeDoc==="transferSlip" ? <>
                     <th style={{ textAlign:"left", padding:"8px 4px", fontWeight:600 }}>借方科目</th>
@@ -470,7 +466,7 @@ function DocIssuePage() {
               </thead>
               <tbody>
                 {(d.slipEntries||[]).map((e, idx) => (
-                  <tr key={idx} style={{ borderBottom:"1px solid #eee" }}>
+                  <tr key={idx} style={{ borderBottom:`1px solid ${C.border}` }}>
                     <td style={{ padding:"6px 4px" }}><EF value={e.date} onChange={v=>{ const s=[...(d.slipEntries||[])]; s[idx]={...s[idx],date:v}; updateField("slipEntries",s); }} style={{ width:90 }} /></td>
                     {activeDoc==="transferSlip" ? <>
                       <td style={{ padding:"6px 4px" }}><EF value={e.debitAcc} onChange={v=>{ const s=[...(d.slipEntries||[])]; s[idx]={...s[idx],debitAcc:v}; updateField("slipEntries",s); }} placeholder="借方" style={{ width:90 }} /></td>
@@ -479,14 +475,14 @@ function DocIssuePage() {
                     <td style={{ padding:"6px 4px" }}><EF value={e.partner||""} onChange={v=>{ const s=[...(d.slipEntries||[])]; s[idx]={...s[idx],partner:v}; updateField("slipEntries",s); }} style={{ width:100 }} /></td>
                     <td style={{ padding:"6px 4px" }}><EF type="number" value={e.amount} onChange={v=>{ const s=[...(d.slipEntries||[])]; s[idx]={...s[idx],amount:v}; updateField("slipEntries",s); }} style={{ width:90, textAlign:"right" }} /></td>
                     <td style={{ padding:"6px 4px" }}><EF value={e.memo} onChange={v=>{ const s=[...(d.slipEntries||[])]; s[idx]={...s[idx],memo:v}; updateField("slipEntries",s); }} style={{ width:120 }} /></td>
-                    <td style={{ padding:"6px 2px" }}>{(d.slipEntries||[]).length>1 && <span onClick={()=>updateField("slipEntries",(d.slipEntries||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:"#ccc", fontSize:14 }}>×</span>}</td>
+                    <td style={{ padding:"6px 2px" }}>{(d.slipEntries||[]).length>1 && <span onClick={()=>updateField("slipEntries",(d.slipEntries||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:C.textMut, fontSize:14 }}>×</span>}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <div style={{ display:"flex", justifyContent:"space-between" }}>
               <button onClick={()=>updateField("slipEntries",[...(d.slipEntries||[]),{ date:"2026/02/25", account:"", debitAcc:"", creditAcc:"", partner:"", amount:0, memo:"" }])} type="button"
-                style={{ padding:"6px 16px", borderRadius:8, border:"1.5px dashed #ccc", background:"transparent", color:"#888", fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
+                style={{ padding:"6px 16px", borderRadius:8, border:`1.5px dashed ${C.border}`, background:"transparent", color:C.textMut, fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
               <div style={{ fontSize:14, fontWeight:700 }}>合計: {fmt((d.slipEntries||[]).reduce((s,e)=>s+(Number(e.amount)||0),0))}</div>
             </div>
           </div>}
@@ -495,7 +491,7 @@ function DocIssuePage() {
           {cfg.hasTravelRows && <div style={{ marginBottom:20 }}>
             <table style={{ width:"100%", borderCollapse:"collapse", fontSize:11, marginBottom:10 }}>
               <thead>
-                <tr style={{ borderBottom:"2px solid #1a1a2e" }}>
+                <tr style={{ borderBottom:`2px solid ${C.border}` }}>
                   {["日付","出発地","到着地","交通機関","金額","摘要",""].map((h,i) => (
                     <th key={i} style={{ textAlign:i===4?"right":"left", padding:"8px 4px", fontWeight:600, fontSize:11 }}>{h}</th>
                   ))}
@@ -503,21 +499,21 @@ function DocIssuePage() {
               </thead>
               <tbody>
                 {(d.travelRows||[]).map((r, idx) => (
-                  <tr key={idx} style={{ borderBottom:"1px solid #eee" }}>
+                  <tr key={idx} style={{ borderBottom:`1px solid ${C.border}` }}>
                     <td style={{ padding:"5px 4px" }}><EF value={r.date} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],date:v}; updateField("travelRows",t); }} style={{ width:80, fontSize:11 }} /></td>
                     <td style={{ padding:"5px 4px" }}><EF value={r.from} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],from:v}; updateField("travelRows",t); }} style={{ width:60, fontSize:11 }} /></td>
                     <td style={{ padding:"5px 4px" }}><EF value={r.to} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],to:v}; updateField("travelRows",t); }} style={{ width:60, fontSize:11 }} /></td>
                     <td style={{ padding:"5px 4px" }}><EF value={r.transport} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],transport:v}; updateField("travelRows",t); }} style={{ width:60, fontSize:11 }} /></td>
                     <td style={{ padding:"5px 4px" }}><EF type="number" value={r.amount} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],amount:v}; updateField("travelRows",t); }} style={{ width:70, textAlign:"right", fontSize:11 }} /></td>
                     <td style={{ padding:"5px 4px" }}><EF value={r.memo} onChange={v=>{ const t=[...(d.travelRows||[])]; t[idx]={...t[idx],memo:v}; updateField("travelRows",t); }} style={{ width:80, fontSize:11 }} /></td>
-                    <td style={{ padding:"5px 2px" }}>{(d.travelRows||[]).length>1 && <span onClick={()=>updateField("travelRows",(d.travelRows||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:"#ccc", fontSize:14 }}>×</span>}</td>
+                    <td style={{ padding:"5px 2px" }}>{(d.travelRows||[]).length>1 && <span onClick={()=>updateField("travelRows",(d.travelRows||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:C.textMut, fontSize:14 }}>×</span>}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <div style={{ display:"flex", justifyContent:"space-between" }}>
               <button onClick={()=>updateField("travelRows",[...(d.travelRows||[]),{ date:"2026/02/25", from:"", to:"", transport:"", amount:0, memo:"" }])} type="button"
-                style={{ padding:"6px 16px", borderRadius:8, border:"1.5px dashed #ccc", background:"transparent", color:"#888", fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
+                style={{ padding:"6px 16px", borderRadius:8, border:`1.5px dashed ${C.border}`, background:"transparent", color:C.textMut, fontSize:11, cursor:"pointer" }}>+ 行を追加</button>
               <div style={{ fontSize:14, fontWeight:700 }}>合計: {fmt((d.travelRows||[]).reduce((s,r)=>s+(Number(r.amount)||0),0))}</div>
             </div>
           </div>}
@@ -525,54 +521,54 @@ function DocIssuePage() {
           {/* ── Body text (letters, depositConf) ── */}
           {cfg.hasBody && <div style={{ marginBottom:20 }}>
             <textarea value={d.body} onChange={e=>updateField("body",e.target.value)} placeholder="本文を入力してください…" rows={Math.max(6, (d.body||"").split("\n").length + 2)}
-              style={{ width:"100%", border:"1px solid #e0e0e8", borderRadius:6, padding:"12px 14px", fontSize:12, fontFamily:bd, color:"#1a1a2e", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.8 }}
-              onFocus={e=>{e.target.style.borderColor="#4466EE";}} onBlur={e=>{e.target.style.borderColor="#e0e0e8";}} />
+              style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:6, padding:"12px 14px", fontSize:12, fontFamily:bd, color:C.text, background:"transparent", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.8 }}
+              onFocus={e=>{e.target.style.borderColor=C.purple;}} onBlur={e=>{e.target.style.borderColor=C.border;}} />
           </div>}
 
           {/* ── Enclosures (送付状) ── */}
-          {cfg.hasEnclosures && <div style={{ marginBottom:20, padding:"12px 16px", background:"#f9f9fc", borderRadius:8 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:"#666", marginBottom:8 }}>同封書類</div>
+          {cfg.hasEnclosures && <div style={{ marginBottom:20, padding:"12px 16px", background:C.surfAlt, borderRadius:8 }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.textMut, marginBottom:8 }}>同封書類</div>
             {(d.enclosures||[]).map((enc, idx) => (
               <div key={idx} style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
                 <span style={{ fontSize:12 }}>・</span>
                 <EF value={enc} onChange={v=>{ const e2=[...(d.enclosures||[])]; e2[idx]=v; updateField("enclosures",e2); }} style={{ flex:1, fontSize:11 }} />
-                <span onClick={()=>updateField("enclosures",(d.enclosures||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:"#ccc", fontSize:13 }}>×</span>
+                <span onClick={()=>updateField("enclosures",(d.enclosures||[]).filter((_,i)=>i!==idx))} style={{ cursor:"pointer", color:C.textMut, fontSize:13 }}>×</span>
               </div>
             ))}
             <button onClick={()=>updateField("enclosures",[...(d.enclosures||[]),""])} type="button"
-              style={{ padding:"4px 12px", borderRadius:6, border:"1px dashed #ccc", background:"transparent", color:"#888", fontSize:10, cursor:"pointer", marginTop:4 }}>+ 書類を追加</button>
+              style={{ padding:"4px 12px", borderRadius:6, border:`1px dashed ${C.border}`, background:"transparent", color:C.textMut, fontSize:10, cursor:"pointer", marginTop:4 }}>+ 書類を追加</button>
           </div>}
 
           {/* ── Note ── */}
           {cfg.hasNote && <div style={{ marginBottom:20 }}>
-            <div style={{ fontSize:11, color:"#999", marginBottom:4 }}>備考</div>
+            <div style={{ fontSize:11, color:C.textMut, marginBottom:4 }}>備考</div>
             <textarea value={d.note} onChange={e=>updateField("note",e.target.value)} placeholder="備考・特記事項" rows={3}
-              style={{ width:"100%", border:"1px solid #e0e0e8", borderRadius:6, padding:"8px 12px", fontSize:11, fontFamily:bd, color:"#1a1a2e", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.7 }}
-              onFocus={e=>{e.target.style.borderColor="#4466EE";}} onBlur={e=>{e.target.style.borderColor="#e0e0e8";}} />
+              style={{ width:"100%", border:`1px solid ${C.border}`, borderRadius:6, padding:"8px 12px", fontSize:11, fontFamily:bd, color:C.text, background:"transparent", outline:"none", resize:"vertical", boxSizing:"border-box", lineHeight:1.7 }}
+              onFocus={e=>{e.target.style.borderColor=C.purple;}} onBlur={e=>{e.target.style.borderColor=C.border;}} />
           </div>}
 
           {/* ── Bank info ── */}
-          {cfg.hasBank && <div style={{ background:"#f9f9fc", borderRadius:8, padding:"12px 16px", marginBottom:20 }}>
-            <div style={{ fontSize:10, fontWeight:700, color:"#666", marginBottom:8 }}>振込先</div>
+          {cfg.hasBank && <div style={{ background:C.surfAlt, borderRadius:8, padding:"12px 16px", marginBottom:20 }}>
+            <div style={{ fontSize:10, fontWeight:700, color:C.textMut, marginBottom:8 }}>振込先</div>
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
-              <div><div style={{ fontSize:9, color:"#999" }}>銀行・支店</div><EF value={d.bankName} onChange={v=>updateField("bankName",v)} style={{ width:"100%", fontSize:11 }} /></div>
-              <div><div style={{ fontSize:9, color:"#999" }}>口座番号</div><EF value={d.bankAccount} onChange={v=>updateField("bankAccount",v)} style={{ width:"100%", fontSize:11 }} /></div>
-              <div style={{ gridColumn:"span 2" }}><div style={{ fontSize:9, color:"#999" }}>口座名義</div><EF value={d.bankHolder} onChange={v=>updateField("bankHolder",v)} style={{ width:"100%", fontSize:11 }} /></div>
+              <div><div style={{ fontSize:9, color:C.textMut }}>銀行・支店</div><EF value={d.bankName} onChange={v=>updateField("bankName",v)} style={{ width:"100%", fontSize:11 }} /></div>
+              <div><div style={{ fontSize:9, color:C.textMut }}>口座番号</div><EF value={d.bankAccount} onChange={v=>updateField("bankAccount",v)} style={{ width:"100%", fontSize:11 }} /></div>
+              <div style={{ gridColumn:"span 2" }}><div style={{ fontSize:9, color:C.textMut }}>口座名義</div><EF value={d.bankHolder} onChange={v=>updateField("bankHolder",v)} style={{ width:"100%", fontSize:11 }} /></div>
             </div>
           </div>}
 
           {/* ── Issuer / Signatures ── */}
-          <div style={{ marginTop:24, paddingTop:16, borderTop:"1px solid #eee" }}>
+          <div style={{ marginTop:24, paddingTop:16, borderTop:`1px solid ${C.border}` }}>
             {cfg.hasClauses ? (
               /* Contract: dual signature */
               <div style={{ display:"flex", justifyContent:"space-between", gap:40 }}>
                 <div style={{ flex:1, textAlign:"center" }}>
-                  <div style={{ fontSize:11, color:"#999", marginBottom:8 }}>甲（委託者/発注者）</div>
+                  <div style={{ fontSize:11, color:C.textMut, marginBottom:8 }}>甲（委託者/発注者）</div>
                   <EF value={d.partner||""} onChange={v=>updateField("partner",v)} placeholder="甲の名称" style={{ fontSize:13, fontWeight:700, textAlign:"center", width:"100%", marginBottom:4 }} />
                   {cfg.hasStamp && <div style={{ width:56, height:56, borderRadius:"50%", border:"2px solid #cc3333", color:"#cc3333", fontSize:10, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", margin:"8px auto", opacity:.5 }}>印</div>}
                 </div>
                 <div style={{ flex:1, textAlign:"center" }}>
-                  <div style={{ fontSize:11, color:"#999", marginBottom:8 }}>乙（受託者/受注者）</div>
+                  <div style={{ fontSize:11, color:C.textMut, marginBottom:8 }}>乙（受託者/受注者）</div>
                   <EF value={d.issuerName} onChange={v=>updateField("issuerName",v)} style={{ fontSize:13, fontWeight:700, textAlign:"center", width:"100%", marginBottom:4 }} />
                   {cfg.hasStamp && <div style={{ width:56, height:56, borderRadius:"50%", border:"2px solid #cc3333", color:"#cc3333", fontSize:10, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", margin:"8px auto", opacity:.5 }}>印</div>}
                 </div>
@@ -583,14 +579,14 @@ function DocIssuePage() {
                 <div style={{ flex:1 }} />
                 <div style={{ textAlign:"right" }}>
                   <EF value={d.issuerName} onChange={v=>updateField("issuerName",v)} style={{ fontSize:13, fontWeight:700, textAlign:"right", width:220 }} />
-                  <EF value={d.issuerAddr} onChange={v=>updateField("issuerAddr",v)} style={{ fontSize:10, color:"#888", textAlign:"right", width:220, marginTop:2 }} />
+                  <EF value={d.issuerAddr} onChange={v=>updateField("issuerAddr",v)} style={{ fontSize:10, color:C.textMut, textAlign:"right", width:220, marginTop:2 }} />
                   <div style={{ display:"flex", gap:4, justifyContent:"flex-end", marginTop:2 }}>
-                    <span style={{ fontSize:10, color:"#888" }}>TEL:</span><EF value={d.issuerTel} onChange={v=>updateField("issuerTel",v)} style={{ fontSize:10, color:"#888", width:120, textAlign:"right" }} />
+                    <span style={{ fontSize:10, color:C.textMut }}>TEL:</span><EF value={d.issuerTel} onChange={v=>updateField("issuerTel",v)} style={{ fontSize:10, color:C.textMut, width:120, textAlign:"right" }} />
                   </div>
                   <div style={{ display:"flex", gap:4, justifyContent:"flex-end" }}>
-                    <span style={{ fontSize:10, color:"#888" }}>Email:</span><EF value={d.issuerEmail} onChange={v=>updateField("issuerEmail",v)} style={{ fontSize:10, color:"#888", width:160, textAlign:"right" }} />
+                    <span style={{ fontSize:10, color:C.textMut }}>Email:</span><EF value={d.issuerEmail} onChange={v=>updateField("issuerEmail",v)} style={{ fontSize:10, color:C.textMut, width:160, textAlign:"right" }} />
                   </div>
-                  <div style={{ fontSize:10, color:"#888", marginTop:2 }}>登録番号: <EF value={d.invoiceNum} onChange={v=>updateField("invoiceNum",v)} style={{ fontSize:10, color:"#888", width:150 }} /></div>
+                  <div style={{ fontSize:10, color:C.textMut, marginTop:2 }}>登録番号: <EF value={d.invoiceNum} onChange={v=>updateField("invoiceNum",v)} style={{ fontSize:10, color:C.textMut, width:150 }} /></div>
                   {cfg.hasStamp && <div style={{ width:56, height:56, borderRadius:"50%", border:"2px solid #cc3333", color:"#cc3333", fontSize:10, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", marginLeft:"auto", marginTop:8, opacity:.5 }}>印</div>}
                 </div>
               </div>
