@@ -5,6 +5,7 @@ import { HoloBadge, COMPANY_TYPES } from "./Intake";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const ANTHROPIC_KEY = process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY;
 
 function RProse({ children }) { return <div style={{ fontSize:13, color:C.textSec, lineHeight:1.85, letterSpacing:".01em" }}>{children}</div>; }
 function RStrong({ children }) { return <span style={{ color:"#fff", fontWeight:600 }}>{children}</span>; }
@@ -627,7 +628,8 @@ function ConsultPage({ goalMode, setGoalMode }) {
 
   /* ═══ APIレポート生成 ═══ */
   React.useEffect(() => {
-    if (!selected || !COMPANY_DATA) return;
+    if (!selected || selected === "overview") return;
+    if (!ANTHROPIC_KEY) return;
     if (reportContent[selected] || reportLoading[selected]) return;
 
     const cardId = selected;
@@ -636,26 +638,27 @@ function ConsultPage({ goalMode, setGoalMode }) {
     const kpiText = (allKPIs[cardId] || []).map(k => `${k.l}: ${k.v}`).join(" / ");
     const sysPrompt = CARD_PROMPTS[cardId] || CARD_PROMPTS.salesTrend;
     const cardLabel = allCards.find(c => c.id === cardId)?.label || cardId;
+    const cd = COMPANY_DATA || {};
 
     const userMsg = `以下の企業データを分析し、${cardLabel}に関する財務コンサルティングレポートを作成してください。
 
 【企業情報】
-社名: ${COMPANY_DATA.name} / 業種: ${COMPANY_DATA.industry} / 従業員: ${COMPANY_DATA.employees}名
-企業タイプ: ${COMPANY_DATA.archetype}（${COMPANY_DATA.archetypeJp}）
-優先施策: ${COMPANY_DATA.archetypePriority}
-注意点: ${COMPANY_DATA.archetypeWarning}
+社名: ${cd.name || "未設定"} / 業種: ${cd.industry || "未設定"} / 従業員: ${cd.employees || "—"}名
+企業タイプ: ${cd.archetype || activeArchetype.name}（${cd.archetypeJp || activeArchetype.jp}）
+優先施策: ${cd.archetypePriority || activeArchetype.priority?.join("、") || "—"}
+注意点: ${cd.archetypeWarning || activeArchetype.warning || "—"}
 
 【財務データ】
-月商: ¥${COMPANY_DATA.monthlySales}万 / 前年比: ${COMPANY_DATA.yoyGrowth}%
-月間経費: ¥${COMPANY_DATA.monthlyExpense}万 / 固定費率: ${COMPANY_DATA.fixedCostRatio}%（業界平均${COMPANY_DATA.industryAvgFixedCost}%）
-人件費: ¥${COMPANY_DATA.laborCost}万/月 / 1人あたり売上: ¥${COMPANY_DATA.salesPerEmployee}万
-役員報酬: ¥${COMPANY_DATA.execSalary}万/月 / 法人税率: ${COMPANY_DATA.corpTaxRate}% / 所得税率: ${COMPANY_DATA.incomeTaxRate}%
-推定法人税: ¥${COMPANY_DATA.estimatedCorpTax}万 / 節税余地: ¥${COMPANY_DATA.taxSavingPotential}万
-預金残高: ¥${COMPANY_DATA.bankBalance}万 / 月間CF: ¥${COMPANY_DATA.monthlyCF}万
-売掛回収サイト: ${COMPANY_DATA.arDays}日 / 支払サイト: ${COMPANY_DATA.apDays}日
-借入残高: ¥${COMPANY_DATA.loanBalance}万 / 返済比率: ${COMPANY_DATA.debtServiceRatio}% / 平均金利: ${COMPANY_DATA.avgInterestRate}%
-小規模企業共済: ${COMPANY_DATA.smallBizSharedPension?'加入':'未加入'} / iDeCo: ${COMPANY_DATA.iDeCo?'加入':'未加入'} / セーフティ共済: ${COMPANY_DATA.safetyCoop?'加入':'未加入'}
-少額償却残枠: ¥${COMPANY_DATA.smallAssetAllowance}万 / 申請可能補助金: ${COMPANY_DATA.subsidyCount}件
+月商: ¥${cd.monthlySales || "—"}万 / 前年比: ${cd.yoyGrowth || "—"}%
+月間経費: ¥${cd.monthlyExpense || "—"}万 / 固定費率: ${cd.fixedCostRatio || "—"}%（業界平均${cd.industryAvgFixedCost || "—"}%）
+人件費: ¥${cd.laborCost || "—"}万/月 / 1人あたり売上: ¥${cd.salesPerEmployee || "—"}万
+役員報酬: ¥${cd.execSalary || "—"}万/月 / 法人税率: ${cd.corpTaxRate || "—"}% / 所得税率: ${cd.incomeTaxRate || "—"}%
+推定法人税: ¥${cd.estimatedCorpTax || "—"}万 / 節税余地: ¥${cd.taxSavingPotential || "—"}万
+預金残高: ¥${cd.bankBalance || "—"}万 / 月間CF: ¥${cd.monthlyCF || "—"}万
+売掛回収サイト: ${cd.arDays || "—"}日 / 支払サイト: ${cd.apDays || "—"}日
+借入残高: ¥${cd.loanBalance || "—"}万 / 返済比率: ${cd.debtServiceRatio || "—"}% / 平均金利: ${cd.avgInterestRate || "—"}%
+小規模企業共済: ${cd.smallBizSharedPension?'加入':'未加入'} / iDeCo: ${cd.iDeCo?'加入':'未加入'} / セーフティ共済: ${cd.safetyCoop?'加入':'未加入'}
+少額償却残枠: ¥${cd.smallAssetAllowance || "—"}万 / 申請可能補助金: ${cd.subsidyCount || "—"}件
 
 【このカードのKPI】
 ${kpiText}
@@ -677,6 +680,8 @@ ${kpiText}
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_KEY,
+        "anthropic-version": "2023-06-01",
         "anthropic-dangerous-direct-browser-access": "true",
       },
       body: JSON.stringify({
@@ -697,7 +702,7 @@ ${kpiText}
       .finally(() => {
         setReportLoading(p => ({...p, [cardId]: false}));
       });
-  }, [selected, COMPANY_DATA]);
+  }, [selected, COMPANY_DATA, ANTHROPIC_KEY]);
 
   /* ═══ Markdown renderer (simple) ═══ */
   const RenderMarkdown = ({ text }) => {
@@ -1089,6 +1094,11 @@ ${kpiText}
   /* ═══ Chat response engine — Claude API ═══ */
   const sendMsg = async () => {
     if (!chatInput.trim() || chatLoading) return;
+    if (!ANTHROPIC_KEY) {
+      setChatMsgs(c => [...c, { role:"user", text:chatInput.trim() }, { role:"ai", text:"APIキーが設定されていません。Vercelの環境変数にNEXT_PUBLIC_ANTHROPIC_API_KEYを設定してください。" }]);
+      setChatInput("");
+      return;
+    }
     const q = chatInput.trim();
     setChatMsgs(c => [...c, { role:"user", text:q }]);
     setChatInput("");
@@ -1096,7 +1106,7 @@ ${kpiText}
 
     const cardKpis = (allKPIs[selected] || []).map(k => `${k.l}: ${k.v}`).join(" / ");
     const archetypeCtx = activeArchetype
-      ? `企業タイプ: ${activeArchetype.name}（${activeArchetype.jp}）\nキャッチフレーズ: ${activeArchetype.catchphrase}\n優先施策: ${activeArchetype.priority.join("、")}\n注意点: ${activeArchetype.warning}`
+      ? `企業タイプ: ${activeArchetype.name}（${activeArchetype.jp}）\nキャッチフレーズ: ${activeArchetype.catchphrase || ""}\n優先施策: ${(activeArchetype.priority || []).join("、")}\n注意点: ${activeArchetype.warning || ""}`
       : "";
 
     const systemPrompt = `あなたは日本の中小企業専門の最上位レベルの財務コンサルタントです。税理士・公認会計士・中小企業診断士の知識を統合し、経営者に対して最高水準の財務アドバイスを提供します。
@@ -1122,7 +1132,12 @@ ${cardKpis || "データなし"}
     try {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ANTHROPIC_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
