@@ -107,24 +107,24 @@ function ConsultPage({ goalMode, setGoalMode }) {
 
   const ARCHETYPE_TOP3 = {
     leviathan: [
-      { n:"1", title:"決算書を融資目線で整える", detail:"売掛回収45日を30日に短縮。CF+¥150万/月で銀行への返済余力をアピール", c:"#60b8ff", card:"loanStrategy" },
-      { n:"2", title:"役員報酬を融資有利に調整", detail:"月¥80万→¥70万に下げて法人利益を積み上げ。銀行の黒字評価に直結", c:"#60b8ff", card:"execComp" },
+      { n:"1", title:"決算書を融資目線で整える", detail:"売掛回収サイトの短縮で銀行への返済余力をアピール", c:"#60b8ff", card:"loanStrategy" },
+      { n:"2", title:"役員報酬を融資有利に調整", detail:"報酬調整で法人利益を積み上げ。銀行の黒字評価に直結", c:"#60b8ff", card:"execComp" },
       { n:"3", title:"キャッシュフロー計画の整備", detail:"13週間CF予測を作成。融資面談で「資金計画がある経営者」を示す", c:"#60b8ff", card:"cashflow" },
     ],
     phoenix: [
-      { n:"1", title:"固定費を今月中に削れる分だけ削る", detail:"SaaS解約・外注費交渉で月¥20万以上即時改善。損益分岐点を下げる", c:"#ff9060", card:"costStructure" },
-      { n:"2", title:"売掛回収サイクルの短縮", detail:"回収45日→30日でCF+¥150万/月。資金ショートを防ぐ最優先施策", c:"#ff9060", card:"cashflow" },
+      { n:"1", title:"固定費を今月中に削れる分だけ削る", detail:"SaaS解約・外注費交渉で即時改善。損益分岐点を下げる", c:"#ff9060", card:"costStructure" },
+      { n:"2", title:"売掛回収サイクルの短縮", detail:"回収サイト短縮でCF改善。資金ショートを防ぐ最優先施策", c:"#ff9060", card:"cashflow" },
       { n:"3", title:"借入条件のリスケ検討", detail:"返済負担が重い場合は早期に金融機関と条件変更交渉。手遅れ前に動く", c:"#ff9060", card:"loanStrategy" },
     ],
     dragon: [
       { n:"1", title:"成長を支えるCF計画を立てる", detail:"人員増・投資増に備えた四半期CF予測。黒字でも資金ショートするリスクを先読み", c:"#00e8d0", card:"cashflow" },
       { n:"2", title:"人件費の生産性を測る", detail:"急拡大期に採用が先行しがち。部門別1人あたり売上を四半期ごとに追う", c:"#00e8d0", card:"laborCost" },
-      { n:"3", title:"法人税の繰り延べ策を設計", detail:"節税3段重ねで年¥120万。成長投資の原資を確保するための必須施策", c:"#00e8d0", card:"taxSim" },
+      { n:"3", title:"法人税の繰り延べ策を設計", detail:"節税3段重ねで成長投資の原資を確保するための必須施策", c:"#00e8d0", card:"taxSim" },
     ],
     sphinx: [
-      { n:"1", title:"節税3段重ねを今期中に実行", detail:"小規模共済+iDeCo+セーフティ共済で年¥120万節税。今月動けば今期適用", c:"#d080ff", card:"taxSim" },
+      { n:"1", title:"節税3段重ねを今期中に実行", detail:"小規模共済+iDeCo+セーフティ共済で節税。今月動けば今期適用", c:"#d080ff", card:"taxSim" },
       { n:"2", title:"役員報酬の最適額を再設計", detail:"法人税×所得税の交差点を計算。退職金積立と組み合わせた総合設計が必要", c:"#d080ff", card:"execComp" },
-      { n:"3", title:"補助金・税制優遇のフル活用", detail:"少額償却残枠¥172万が期末に消滅。今期中に設備購入か経費化を判断", c:"#d080ff", card:"capexSubsidy" },
+      { n:"3", title:"補助金・税制優遇のフル活用", detail:"少額償却残枠が期末に消滅。今期中に設備購入か経費化を判断", c:"#d080ff", card:"capexSubsidy" },
     ],
     chimera: [
       { n:"1", title:"法人分割・持株会社スキームの検討", detail:"事業部門ごとの損益を可視化。どこが利益源でどこがコストセンターかを明確に", c:"#ff80c0", card:"corpStrategy" },
@@ -133,11 +133,11 @@ function ConsultPage({ goalMode, setGoalMode }) {
     ],
     kraken: [
       { n:"1", title:"13週間CFシミュレーションの作成", detail:"資金ショートを2ヶ月先まで予測する習慣。月次では手遅れになることがある", c:"#40d0ff", card:"cashflow" },
-      { n:"2", title:"売掛回収を業界最速に", detail:"回収45日→30日でCF+¥150万/月。新規契約から条件変更を徹底する", c:"#40d0ff", card:"procurement" },
+      { n:"2", title:"売掛回収を業界最速に", detail:"回収サイト短縮でCF改善。新規契約から条件変更を徹底する", c:"#40d0ff", card:"procurement" },
       { n:"3", title:"仕入・支払条件の見直し", detail:"支払サイトを30日→45日に延長交渉。回収短縮と合わせてCFギャップをゼロに", c:"#40d0ff", card:"costStructure" },
     ],
     griffin: [
-      { n:"1", title:"役員退職金の積立設計を開始", detail:"月80万×在任年数×功績倍率3倍で¥4,800万損金。今から原資積立が必要", c:"#e8c040", card:"execComp" },
+      { n:"1", title:"役員退職金の積立設計を開始", detail:"最終報酬×在任年数×功績倍率で損金算入。今から原資積立が必要", c:"#e8c040", card:"execComp" },
       { n:"2", title:"企業価値評価に有利なBSを作る", detail:"不良資産の整理と純資産の積み上げ。M&Aバリュエーションに直結する", c:"#e8c040", card:"corpStrategy" },
       { n:"3", title:"節税で手元資金を最大化", detail:"出口直前の大きな節税より、今から積み上げる節税の方が効果が大きい", c:"#e8c040", card:"taxSim" },
     ],
@@ -147,7 +147,7 @@ function ConsultPage({ goalMode, setGoalMode }) {
       { n:"3", title:"青色申告と記帳体制の整備", detail:"創業初年度の税務ミスは後年に響く。今期の申告を正確に仕上げることが最優先", c:"#a0c8ff", card:"filingTax" },
     ],
     golem: [
-      { n:"1", title:"節税3段重ねで内部留保を最大化", detail:"小規模共済+iDeCo+セーフティ共済で年¥120万節税。安定期こそ節税効果が高い", c:"#70e880", card:"taxSim" },
+      { n:"1", title:"節税3段重ねで内部留保を最大化", detail:"小規模共済+iDeCo+セーフティ共済で節税。安定期こそ節税効果が高い", c:"#70e880", card:"taxSim" },
       { n:"2", title:"役員退職金の積立を本格化", detail:"安定利益を退職金原資に変換。法人税を払うより将来の手取りを増やす設計を", c:"#70e880", card:"execComp" },
       { n:"3", title:"内部留保の運用方針を決める", detail:"積み上がった手元資金をどう使うか。設備投資・補助金活用・次世代承継の設計を", c:"#70e880", card:"capexSubsidy" },
     ],

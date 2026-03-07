@@ -1098,35 +1098,18 @@ function BooksPage() {
       {/* Expense Breakdown — Morph Ring with Period Selector */}
       <Rv d={60}><Card3 s={{ padding:28, marginBottom:20 }}>{(() => {
         const periods = [
-          { id:"day", l:"日", sub:"2/18" },
-          { id:"week", l:"週", sub:"2/12〜18" },
-          { id:"month", l:"月", sub:"2月" },
-          { id:"year", l:"年", sub:"2025年度" },
+          { id:"day", l:"日", sub:"—" },
+          { id:"week", l:"週", sub:"—" },
+          { id:"month", l:"月", sub:"—" },
+          { id:"year", l:"年", sub:"—" },
         ];
         const periodData = {
-          day: [
-            { label:"会議費", value:0.012, color:"rgba(168,155,255,.8)" },
-            { label:"通信費", value:2.48, color:"rgba(139,123,244,.55)" },
-          ],
-          week: [
-            { label:"通信費", value:2.648, color:"rgba(168,155,255,.8)" },
-            { label:"工具器具備品", value:1.28, color:"rgba(139,123,244,.55)" },
-            { label:"旅費交通費", value:0.142, color:"rgba(120,108,220,.4)" },
-            { label:"消耗品費", value:0.348, color:"rgba(100,90,200,.35)" },
-            { label:"会議費", value:0.012, color:"rgba(80,70,180,.3)" },
-            { label:"交際費", value:0.324, color:"rgba(60,55,160,.25)" },
-          ],
-          month: [
-            { label:"人件費", value:6.7, color:"rgba(168,155,255,.8)" },
-            { label:"地代家賃", value:3.8, color:"rgba(139,123,244,.55)" },
-            { label:"通信費", value:5.728, color:"rgba(120,108,220,.4)" },
-            { label:"工具器具備品", value:1.28, color:"rgba(100,90,200,.35)" },
-            { label:"交際費", value:0.509, color:"rgba(80,70,180,.3)" },
-            { label:"その他", value:1.383, color:"rgba(60,55,160,.25)" },
-          ],
+          day: [],
+          week: [],
+          month: [],
           year: EXPENSE_DATA,
         };
-        const periodLabels = { day:"2/18の経費", week:"今週の経費", month:"2月の経費", year:"年間経費" };
+        const periodLabels = { day:"日次経費", week:"週次経費", month:"月次経費", year:"年間経費" };
         return (<>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 }}>
             <div style={{ fontSize:18, color:"#fff", fontWeight:600, fontFamily:hd, letterSpacing:"-.01em" }}>経費内訳</div>
