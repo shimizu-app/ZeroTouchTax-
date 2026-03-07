@@ -7,16 +7,7 @@ import { FilingForms, MonthlyLedger, FORM_DEFS } from "./BooksPage";
 function PlanPage() {
   const months = ["4月","5月","6月","7月","8月","9月","10月","11月","12月","1月","2月","3月"];
   const currentMonth = 10;
-  const [events, setEvents] = useState([
-    { month:5, label:"住民税 1期", type:"tax" },
-    { month:6, label:"源泉所得税 上期", type:"tax" },
-    { month:7, label:"消費税 中間", type:"tax" },
-    { month:8, label:"住民税 2期", type:"tax" },
-    { month:10, label:"源泉所得税 2月分", type:"tax" },
-    { month:10, label:"確定申告 3/15", type:"filing" },
-    { month:11, label:"消費税申告 3/31", type:"filing" },
-    { month:11, label:"法人税申告 5/31", type:"filing" },
-  ]);
+  const [events, setEvents] = useState([]);
   const [addMonth, setAddMonth] = useState(null);
   const [newLabel, setNewLabel] = useState("");
   const [newType, setNewType] = useState("tax");
@@ -81,11 +72,10 @@ function PlanPage() {
       {/* Filing deadlines */}
       <Rv d={40}><Card3 s={{ padding:28, marginBottom:20 }}>
         <div style={{ fontSize:18, color:"#fff", fontWeight:600, marginBottom:20, fontFamily:hd, letterSpacing:"-.01em" }}>申告期限</div>
-        {[
-          { t:"確定申告書の提出", due:"2026.03.15", left:24, st:"URGENT", c:C.b1, pct:35 },
-          { t:"消費税申告書の提出", due:"2026.03.31", left:40, st:"WIP", c:C.b2, pct:60 },
-          { t:"法人税申告書の提出", due:"2026.05.31", left:101, st:"PENDING", c:C.b4, pct:10 },
-        ].map((d,i)=>(
+        {[].length === 0 && (
+          <div style={{ padding:"20px 0", textAlign:"center", color:C.textMut, fontSize:11 }}>申告期限データなし</div>
+        )}
+        {[].map((d,i)=>(
           <div key={i} style={{ padding:"18px 0", borderTop:i?`1px solid ${C.borderLt}`:"none", display:"flex", alignItems:"center", gap:20 }}>
             <span style={{ fontSize:9, fontWeight:600, color:"#fff", padding:"4px 10px", background:"rgba(139,123,244,.06)", border:"1px solid rgba(139,123,244,.12)", borderRadius:8, letterSpacing:".08em", flexShrink:0 }}>{d.st}</span>
             <div style={{ flex:1 }}>
@@ -141,21 +131,21 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
 
   /* ── Dynamic header fields ── */
   const ALL_FIELDS = [
-    { key: "taxOffice", label: "税務署長", def: "渋谷", group: "basic" },
-    { key: "entity", label: "氏名 / 法人名", def: "クライアント名", group: "basic" },
-    { key: "address", label: "住所 / 事業所", def: "東京都渋谷区神宮前3-1-1", group: "basic" },
-    { key: "createdDate", label: "作成日", def: "令和8年2月25日", group: "date" },
-    { key: "submitDate", label: "提出日", def: "令和8年3月15日", group: "date" },
-    { key: "periodFrom", label: "事業年度（自）", def: "令和7年4月1日", group: "date" },
-    { key: "periodTo", label: "事業年度（至）", def: "令和8年3月31日", group: "date" },
-    { key: "repName", label: "代表者氏名", def: "山田 太郎", group: "extra" },
-    { key: "tel", label: "電話番号", def: "未設定", group: "extra" },
-    { key: "capital", label: "資本金", def: "10,000,000円", group: "extra" },
-    { key: "employees", label: "従業員数", def: "6名", group: "extra" },
-    { key: "industry", label: "業種", def: "情報通信業", group: "extra" },
+    { key: "taxOffice", label: "税務署長", def: "", group: "basic" },
+    { key: "entity", label: "氏名 / 法人名", def: "", group: "basic" },
+    { key: "address", label: "住所 / 事業所", def: "", group: "basic" },
+    { key: "createdDate", label: "作成日", def: "", group: "date" },
+    { key: "submitDate", label: "提出日", def: "", group: "date" },
+    { key: "periodFrom", label: "事業年度（自）", def: "", group: "date" },
+    { key: "periodTo", label: "事業年度（至）", def: "", group: "date" },
+    { key: "repName", label: "代表者氏名", def: "", group: "extra" },
+    { key: "tel", label: "電話番号", def: "", group: "extra" },
+    { key: "capital", label: "資本金", def: "", group: "extra" },
+    { key: "employees", label: "従業員数", def: "", group: "extra" },
+    { key: "industry", label: "業種", def: "", group: "extra" },
     { key: "accountant", label: "税理士", def: "", group: "extra" },
-    { key: "accountMethod", label: "経理方式", def: "税抜経理方式", group: "extra" },
-    { key: "filingType", label: "申告区分", def: "確定", group: "extra" },
+    { key: "accountMethod", label: "経理方式", def: "", group: "extra" },
+    { key: "filingType", label: "申告区分", def: "", group: "extra" },
     { key: "corpNum", label: "法人番号", def: "", group: "extra" },
     { key: "note", label: "備考", def: "", group: "extra" },
   ];
@@ -267,7 +257,7 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
 
             {/* Add menu dropdown */}
             {showAddMenu && (
-              <div style={{ position: "absolute", bottom: "100%", left: 0, marginBottom: 4, background: "#fff", border: "1px solid #ddd", borderRadius: 10, boxShadow: "0 6px 24px rgba(0,0,0,.15)", zIndex: 30, padding: "6px 0", minWidth: 200, maxHeight: 280, overflowY: "auto" }}
+              <div style={{ position: "absolute", bottom: "100%", left: 0, marginBottom: 4, background: "rgba(14,14,24,.95)", backdropFilter: "blur(20px)", border: "1px solid rgba(139,123,244,.15)", borderRadius: 10, boxShadow: "0 6px 24px rgba(0,0,0,.4)", zIndex: 30, padding: "6px 0", minWidth: 200, maxHeight: 280, overflowY: "auto" }}
                 onClick={e => e.stopPropagation()}>
                 {/* Grouped available fields */}
                 {Object.entries(groupLabels).map(([grp, grpLabel]) => {
@@ -275,15 +265,15 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
                   if (items.length === 0) return null;
                   return (
                     <div key={grp}>
-                      <div style={{ fontSize: 8, color: "#999", fontWeight: 700, padding: "6px 12px 2px", letterSpacing: ".05em" }}>{grpLabel}</div>
+                      <div style={{ fontSize: 8, color: C.textMut, fontWeight: 700, padding: "6px 12px 2px", letterSpacing: ".05em" }}>{grpLabel}</div>
                       {items.map(f => (
                         <button key={f.key} type="button" onClick={() => addField(f.key)}
-                          style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", padding: "6px 12px", border: "none", background: "transparent", color: "#2a2a4a", fontSize: 11, cursor: "pointer", fontFamily: bd, textAlign: "left", transition: "background .1s" }}
-                          onMouseEnter={e => e.target.style.background = "#f4f4fa"}
+                          style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", padding: "6px 12px", border: "none", background: "transparent", color: C.textSec, fontSize: 11, cursor: "pointer", fontFamily: bd, textAlign: "left", transition: "background .1s" }}
+                          onMouseEnter={e => e.target.style.background = "rgba(139,123,244,.08)"}
                           onMouseLeave={e => e.target.style.background = "transparent"}>
-                          <span style={{ color: "#1a4690", fontSize: 13, width: 16, textAlign: "center" }}>+</span>
+                          <span style={{ color: "#A89BFF", fontSize: 13, width: 16, textAlign: "center" }}>+</span>
                           {f.label}
-                          {f.def && <span style={{ fontSize: 9, color: "#aaa", marginLeft: "auto" }}>{f.def.substring(0, 12)}{f.def.length > 12 ? "…" : ""}</span>}
+                          {f.def && <span style={{ fontSize: 9, color: C.textMut, marginLeft: "auto" }}>{f.def.substring(0, 12)}{f.def.length > 12 ? "…" : ""}</span>}
                         </button>
                       ))}
                     </div>
@@ -291,10 +281,10 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
                 })}
 
                 {/* Custom field input */}
-                <div style={{ borderTop: "1px solid #eee", padding: "6px 12px" }}>
+                <div style={{ borderTop: `1px solid ${C.border}`, padding: "6px 12px" }}>
                   {!showCustom ? (
                     <button type="button" onClick={() => setShowCustom(true)}
-                      style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", padding: "4px 0", border: "none", background: "transparent", color: "#1a4690", fontSize: 11, cursor: "pointer", fontFamily: bd }}>
+                      style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", padding: "4px 0", border: "none", background: "transparent", color: "#A89BFF", fontSize: 11, cursor: "pointer", fontFamily: bd }}>
                       <span style={{ fontSize: 13 }}>✎</span> カスタム項目を作成…
                     </button>
                   ) : (
@@ -302,9 +292,9 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
                       <input value={customLabel} onChange={e => setCustomLabel(e.target.value)}
                         placeholder="項目名を入力" autoFocus
                         onKeyDown={e => { if (e.key === "Enter") addCustomField(); if (e.key === "Escape") { setShowCustom(false); setCustomLabel(""); } }}
-                        style={{ flex: 1, padding: "4px 8px", border: "1px solid #1a4690", borderRadius: 6, fontSize: 11, fontFamily: bd, outline: "none", color: "#2a2a4a" }} />
+                        style={{ flex: 1, padding: "4px 8px", border: "1px solid rgba(139,123,244,.3)", borderRadius: 6, fontSize: 11, fontFamily: bd, outline: "none", color: C.text, background: "rgba(255,255,255,.04)" }} />
                       <button type="button" onClick={addCustomField}
-                        style={{ padding: "4px 10px", borderRadius: 6, border: "none", background: "#1a4690", color: "#fff", fontSize: 10, fontWeight: 700, cursor: "pointer", fontFamily: bd }}>追加</button>
+                        style={{ padding: "4px 10px", borderRadius: 6, border: "none", background: "rgba(139,123,244,.2)", color: "#C4B8FF", fontSize: 10, fontWeight: 700, cursor: "pointer", fontFamily: bd }}>追加</button>
                     </div>
                   )}
                 </div>

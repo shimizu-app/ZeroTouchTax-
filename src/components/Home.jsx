@@ -366,9 +366,9 @@ function Home({ goTo, goalMode }) {
       {/* ── Hero KPI Row: planet.ai style ── */}
       <Rv><div style={{ display:"grid", gridTemplateColumns:"repeat(3, 1fr)", gap:12, marginBottom:14 }}>
         {[
-          { label:"売上", jp:"売上", value:"1,540万", pct:2.1, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> },
-          { label:"経費", jp:"経費", value:"710万", pct:-3.4, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg> },
-          { label:"営業利益", jp:"営業利益", value:"210万", pct:5.65, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> },
+          { label:"売上", jp:"売上", value:"—", pct:0, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> },
+          { label:"経費", jp:"経費", value:"—", pct:0, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg> },
+          { label:"営業利益", jp:"営業利益", value:"—", pct:0, icon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> },
         ].map((k,i)=>(
           <Card3 key={i} s={{ padding:"20px 22px" }}>
             <div style={{ display:"flex", alignItems:"center", gap:14 }}>
@@ -385,8 +385,8 @@ function Home({ goTo, goalMode }) {
         ))}
       </div></Rv>
 
-      {/* ── Archetype Banner ── */}
-      <Rv d={10}><ArchetypeBanner /></Rv>
+      {/* ── Archetype Banner (データ取得後に表示) ── */}
+      {/* <Rv d={10}><ArchetypeBanner /></Rv> */}
 
       {/* ── Analytic View + 3D Chart — side by side ── */}
       <Rv d={15}><div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:14 }}>
@@ -401,22 +401,22 @@ function Home({ goTo, goalMode }) {
           {/* Bar 1: Average revenue */}
           <div style={{ marginBottom:20 }}>
             <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>月間売上推移</div>
-            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>¥1,250万 — 1,540万</div>
-            <SegBar value={15.4} max={20} segments={30} color="rgba(160,145,255,.65)" />
+            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>—</div>
+            <SegBar value={0} max={20} segments={30} color="rgba(160,145,255,.65)" />
           </div>
 
           {/* Bar 2: Expense ratio */}
           <div style={{ marginBottom:20 }}>
             <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>経費率</div>
-            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>46.1%</div>
-            <SegBar value={46} max={100} segments={30} color="rgba(139,123,244,.45)" />
+            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>—</div>
+            <SegBar value={0} max={100} segments={30} color="rgba(139,123,244,.45)" />
           </div>
 
           {/* Bar 3: Profit margin */}
           <div>
             <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>利益率</div>
-            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>13.6%</div>
-            <SegBar value={13.6} max={30} segments={30} color="rgba(139,123,244,.35)" />
+            <div style={{ fontFamily:hd, fontSize:28, fontWeight:300, color:"#fff", marginBottom:8, letterSpacing:"-.02em", textShadow:"0 0 12px rgba(255,255,255,.2), 0 0 36px rgba(255,255,255,.06)" }}>—</div>
+            <SegBar value={0} max={30} segments={30} color="rgba(139,123,244,.35)" />
           </div>
         </Card3>
 
@@ -446,23 +446,21 @@ function Home({ goTo, goalMode }) {
             <div style={{ flex:1 }}>
               <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>預金残高</div>
               <div style={{ display:"flex", alignItems:"baseline", gap:8 }}>
-                <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"#fff", letterSpacing:"-.03em" }}>¥2,480万</span>
+                <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"#fff", letterSpacing:"-.03em" }}>—</span>
               </div>
             </div>
             <div style={{ textAlign:"right" }}>
-              <div style={{ fontSize:9, color:C.textMut }}>Updated</div>
-              <div style={{ fontSize:10, color:"rgba(255,255,255,.35)" }}>30m ago</div>
+              <div style={{ fontSize:9, color:C.textMut }}></div>
+              <div style={{ fontSize:10, color:"rgba(255,255,255,.35)" }}></div>
             </div>
           </div>
           {/* Gradient progress bar (planet.ai Parcels style) */}
           <div style={{ marginTop:16, height:10, borderRadius:8, background:"rgba(139,123,244,.04)", overflow:"hidden", position:"relative" }}>
-            <div style={{ height:"100%", width:"73%", borderRadius:8, background:"linear-gradient(90deg, rgba(139,123,244,.12), rgba(139,123,244,.45))", boxShadow:"0 0 8px rgba(139,123,244,.2), 0 0 20px rgba(139,123,244,.08)" }} />
-            {/* Tick mark at end */}
-            <div style={{ position:"absolute", right:"27%", top:0, bottom:0, width:2, background:"rgba(139,123,244,.3)" }} />
+            <div style={{ height:"100%", width:"0%", borderRadius:8, background:"linear-gradient(90deg, rgba(139,123,244,.12), rgba(139,123,244,.45))", boxShadow:"0 0 8px rgba(139,123,244,.2), 0 0 20px rgba(139,123,244,.08)" }} />
           </div>
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:6 }}>
-            <span style={{ fontSize:9, color:C.textMut }}>普通 1,820万</span>
-            <span style={{ fontSize:9, color:C.textMut }}>当座 660万</span>
+            <span style={{ fontSize:9, color:C.textMut }}>普通 —</span>
+            <span style={{ fontSize:9, color:C.textMut }}>当座 —</span>
           </div>
         </Card3>
 
@@ -473,28 +471,27 @@ function Home({ goTo, goalMode }) {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </IconBadge>
             <div style={{ flex:1 }}>
-              <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>2025年度進捗</div>
+              <div style={{ fontSize:10, color:C.textMut, marginBottom:4 }}>年度進捗</div>
               <div style={{ display:"flex", alignItems:"baseline", gap:8 }}>
-                <span style={{ fontFamily:hd, fontSize:40, fontWeight:300, color:"#fff", letterSpacing:"-.02em" }}>11</span>
+                <span style={{ fontFamily:hd, fontSize:40, fontWeight:300, color:"#fff", letterSpacing:"-.02em" }}>—</span>
                 <span style={{ fontSize:14, color:"rgba(255,255,255,.25)" }}>/ 12ヶ月</span>
               </div>
             </div>
-            <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"rgba(255,255,255,.5)", letterSpacing:"-.02em" }}>92%</span>
+            <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"rgba(255,255,255,.5)", letterSpacing:"-.02em" }}>—</span>
           </div>
           {/* Segmented progress */}
           <div style={{ display:"flex", gap:3, filter: "drop-shadow(0 0 6px rgba(255,255,255,.08))" }}>
             {Array.from({ length: 12 }, (_, i) => (
               <div key={i} style={{
                 flex: 1, height: 10, borderRadius: 3,
-                background: i < 11 ? "rgba(139,123,244,.45)" : "rgba(139,123,244,.04)",
-                opacity: i < 11 ? (0.3 + 0.7 * (i / 11)) : 1,
-                boxShadow: i === 10 ? "0 0 8px rgba(139,123,244,.4), 0 0 18px rgba(139,123,244,.15)" : "none",
+                background: "rgba(139,123,244,.04)",
+                opacity: 1,
               }} />
             ))}
           </div>
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:6 }}>
-            <span style={{ fontSize:9, color:C.textMut }}>Apr 2025</span>
-            <span style={{ fontSize:9, color:C.textMut }}>Mar 2026</span>
+            <span style={{ fontSize:9, color:C.textMut }}></span>
+            <span style={{ fontSize:9, color:C.textMut }}></span>
           </div>
         </Card3>
       </div></Rv>
@@ -502,10 +499,10 @@ function Home({ goTo, goalMode }) {
       {/* ── Goal-specific KPIs ── */}
       {goalMode && goalMode !== "general" && <Rv d={30}><div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:14 }}>
         {({
-          tax: [{ l:"推定税額", v:"¥680万", s:"法人税+消費税", c:"#A89BFF" }, { l:"節税余地", v:"¥120万", s:"控除・前倒し可能", c:"#8B7BF4" }],
-          cost: [{ l:"削減可能経費", v:"¥82万", s:"3科目で削減余地", c:"#8B7BF4" }, { l:"固定費率", v:"62%", s:"業界平均55%", c:"#A89BFF" }],
-          loan: [{ l:"営業利益率", v:"13.6%", s:"目安10%以上 ✓", c:"#8B7BF4" }, { l:"自己資本比率", v:"42%", s:"目安30%以上 ✓", c:"#8B7BF4" }],
-          growth: [{ l:"広告費比率", v:"0.8%", s:"業界平均8-12%", c:"#A89BFF" }, { l:"キャッシュ余力", v:"¥2,480万", s:"6ヶ月分確保", c:"#8B7BF4" }],
+          tax: [{ l:"推定税額", v:"—", s:"法人税+消費税", c:"#A89BFF" }, { l:"節税余地", v:"—", s:"控除・前倒し可能", c:"#8B7BF4" }],
+          cost: [{ l:"削減可能経費", v:"—", s:"", c:"#8B7BF4" }, { l:"固定費率", v:"—", s:"", c:"#A89BFF" }],
+          loan: [{ l:"営業利益率", v:"—", s:"", c:"#8B7BF4" }, { l:"自己資本比率", v:"—", s:"", c:"#8B7BF4" }],
+          growth: [{ l:"広告費比率", v:"—", s:"", c:"#A89BFF" }, { l:"キャッシュ余力", v:"—", s:"", c:"#8B7BF4" }],
         }[goalMode] || []).map((k,i)=>(
           <Card3 key={i} s={{ padding:"18px 20px" }}>
             <div style={{ display:"flex", alignItems:"center", gap:14 }}>
@@ -530,27 +527,9 @@ function Home({ goTo, goalMode }) {
               <span style={{ fontSize:18, fontWeight:600, color:"#fff", fontFamily:hd, letterSpacing:"-.01em" }}>直近の締切</span>
               <span style={{ fontSize:10, color:"rgba(255,255,255,.35)", fontWeight:600 }}>Plan →</span>
             </div>
-            {[
-              {l:"源泉所得税 2月分",due:"03/10",left:19,color:"rgba(255,255,255,.8)"},
-              {l:"確定申告",due:"03/15",left:24,color:"rgba(255,255,255,.65)"},
-              {l:"消費税申告",due:"03/31",left:40,color:"rgba(255,255,255,.4)"},
-              {l:"法人税申告",due:"05/31",left:101,color:"rgba(255,255,255,.2)"},
-            ].map((d,i,arr)=>(
-              <div key={i} style={{ display:"flex", gap:16, padding:"0 22px", position:"relative" }}>
-                {/* Timeline line + dot */}
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center", width:12 }}>
-                  <div style={{ width:10, height:10, borderRadius:"50%", background:d.color, flexShrink:0, zIndex:1, border:"2px solid rgba(6,6,12,.9)", boxShadow:`0 0 8px ${d.color}` }} />
-                  {i < arr.length-1 && <div style={{ width:1, flex:1, background:"rgba(139,123,244,.08)" }} />}
-                </div>
-                <div style={{ flex:1, paddingBottom:16 }}>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontSize:12, fontWeight:600, color:"#fff" }}>{d.l}</span>
-                    <span style={{ fontSize:10, color:C.textMut }}>{d.due}</span>
-                  </div>
-                  <div style={{ fontSize:10, color:C.textMut, marginTop:2 }}>残り {d.left}日</div>
-                </div>
-              </div>
-            ))}
+            {[].length === 0 && (
+              <div style={{ padding:"20px 22px", textAlign:"center", color:C.textMut, fontSize:11 }}>締切データなし</div>
+            )}
           </Card3>
         </Mag>
 
@@ -560,16 +539,16 @@ function Home({ goTo, goalMode }) {
             <div style={{ padding:"18px 22px 14px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
               <span style={{ fontSize:18, fontWeight:600, color:"#fff", fontFamily:hd, letterSpacing:"-.01em" }}>未処理タスク</span>
               <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"#fff", letterSpacing:"-.02em" }}>8</span>
+                <span style={{ fontFamily:hd, fontSize:36, fontWeight:300, color:"#fff", letterSpacing:"-.02em" }}>0</span>
                 <span style={{ fontSize:10, color:C.textMut }}>件</span>
                 <span style={{ fontSize:10, color:"rgba(255,255,255,.35)", fontWeight:600, marginLeft:4 }}>Tasks →</span>
               </div>
             </div>
             {[
-              {l:"AI仕訳候補",n:3,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>,desc:"OCRから自動推定された仕訳"},
-              {l:"未確認仕訳",n:3,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,desc:"信頼度95%未満の仕訳"},
-              {l:"締切リマインド",n:2,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,desc:"対応が必要な期限"},
-              {l:"不足書類",n:2,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>,desc:"回収待ちの書類"},
+              {l:"AI仕訳候補",n:0,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>,desc:"OCRから自動推定された仕訳"},
+              {l:"未確認仕訳",n:0,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,desc:"信頼度95%未満の仕訳"},
+              {l:"締切リマインド",n:0,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,desc:"対応が必要な期限"},
+              {l:"不足書類",n:0,icon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>,desc:"回収待ちの書類"},
             ].map((t,i)=>(
               <div key={i} style={{ display:"flex", alignItems:"center", gap:14, padding:"12px 22px", borderTop:`1px solid ${C.borderLt}` }}>
                 <IconBadge>{t.icon}</IconBadge>
