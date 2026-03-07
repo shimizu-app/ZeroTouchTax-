@@ -180,7 +180,7 @@ function Mag({ children, s = {}, onClick }) {
     onMouseDown={() => { setCharging(true); setReleased(false); }}
     onMouseUp={handleUp}
     onMouseLeave={() => { setO({ x: 0, y: 0 }); setCharging(false); setReleased(false); }}
-    style={{ ...s, transform: `translate(${o.x}px,${o.y}px) scale(${charging ? .97 : released ? 1.02 : 1})`,
+    style={{ background:"transparent", border:"none", ...s, transform: `translate(${o.x}px,${o.y}px) scale(${charging ? .97 : released ? 1.02 : 1})`,
       transition: charging ? "transform .6s ease-out, box-shadow .6s ease-out, border-color .3s" : o.x === 0 ? "all .5s cubic-bezier(.16,1,.3,1)" : "transform .08s, box-shadow .3s",
       boxShadow: charging ? (s.boxShadow || "") + ", 0 0 24px rgba(139,123,244,.25), 0 0 48px rgba(139,123,244,.1)"
         : released ? (s.boxShadow || "") + (isPrimary ? ", 0 0 36px rgba(139,123,244,.5), 0 0 64px rgba(139,123,244,.2)" : ", 0 0 36px rgba(139,123,244,.35), 0 0 64px rgba(139,123,244,.12)")
