@@ -5,7 +5,7 @@ import { HoloBadge, COMPANY_TYPES } from "./Intake";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const ANTHROPIC_KEY = process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY;
+const GEMINI_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
 function RProse({ children }) { return <div style={{ fontSize:13, color:C.textSec, lineHeight:1.85, letterSpacing:".01em" }}>{children}</div>; }
 function RStrong({ children }) { return <span style={{ color:"#fff", fontWeight:600 }}>{children}</span>; }
@@ -629,7 +629,7 @@ function ConsultPage({ goalMode, setGoalMode }) {
   /* ═══ APIレポート生成 ═══ */
   React.useEffect(() => {
     if (!selected || selected === "overview") return;
-    if (!ANTHROPIC_KEY) return;
+    if (!GEMINI_KEY) return;
     if (reportContent[selected] || reportLoading[selected]) return;
 
     const cardId = selected;
@@ -676,24 +676,18 @@ ${kpiText}
 ## 他カードとの連動
 （この施策が融資・節税・CF・役員報酬などに与える影響）`;
 
-    fetch("https://api.anthropic.com/v1/messages", {
+    fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_KEY,
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1500,
-        system: sysPrompt,
-        messages: [{ role: "user", content: userMsg }],
+        systemInstruction: { parts: [{ text: sysPrompt }] },
+        contents: [{ role: "user", parts: [{ text: userMsg }] }],
+        generationConfig: { maxOutputTokens: 1500 },
       }),
     })
       .then(r => r.json())
       .then(data => {
-        const text = data.content?.[0]?.text || "レポートを生成できませんでした。";
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "レポートを生成できませんでした。";
         setReportContent(p => ({...p, [cardId]: text}));
       })
       .catch(() => {
@@ -702,7 +696,7 @@ ${kpiText}
       .finally(() => {
         setReportLoading(p => ({...p, [cardId]: false}));
       });
-  }, [selected, COMPANY_DATA, ANTHROPIC_KEY]);
+  }, [selected, COMPANY_DATA]);
 
   /* ═══ Markdown renderer (simple) ═══ */
   const RenderMarkdown = ({ text }) => {
@@ -1094,8 +1088,8 @@ ${kpiText}
   /* ═══ Chat response engine — Claude API ═══ */
   const sendMsg = async () => {
     if (!chatInput.trim() || chatLoading) return;
-    if (!ANTHROPIC_KEY) {
-      setChatMsgs(c => [...c, { role:"user", text:chatInput.trim() }, { role:"ai", text:"APIキーが設定されていません。Vercelの環境変数にNEXT_PUBLIC_ANTHROPIC_API_KEYを設定してください。" }]);
+    if (!GEMINI_KEY) {
+      setChatMsgs(c => [...c, { role:"user", text:chatInput.trim() }, { role:"ai", text:"APIキーが設定されていません。Vercelの環境変数にNEXT_PUBLIC_GEMINI_API_KEYを設定してください。" }]);
       setChatInput("");
       return;
     }
@@ -1130,26 +1124,21 @@ ${cardKpis || "データなし"}
 - 専門用語は使うが必ず平易な言葉で補足する`;
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const geminiMsgs = [
+        ...chatMsgs.map(m => ({ role: m.role === "ai" ? "model" : "user", parts: [{ text: m.text }] })),
+        { role: "user", parts: [{ text: q }] },
+      ];
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": ANTHROPIC_KEY,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: systemPrompt,
-          messages: [
-            ...chatMsgs.map(m => ({ role: m.role === "ai" ? "assistant" : "user", content: m.text })),
-            { role: "user", content: q }
-          ],
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: geminiMsgs,
+          generationConfig: { maxOutputTokens: 1000 },
         }),
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || "回答を取得できませんでした。";
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "回答を取得できませんでした。";
       setChatMsgs(c => [...c, { role:"ai", text:reply }]);
     } catch (e) {
       setChatMsgs(c => [...c, { role:"ai", text:"通信エラーが発生しました。再度お試しください。" }]);
