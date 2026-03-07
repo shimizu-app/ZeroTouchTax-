@@ -6,7 +6,7 @@ import { FilingForms, MonthlyLedger, FORM_DEFS } from "./BooksPage";
 
 function PlanPage() {
   const months = ["4月","5月","6月","7月","8月","9月","10月","11月","12月","1月","2月","3月"];
-  const currentMonth = 10;
+  const currentMonth = new Date().getMonth(); // 0-indexed, adjusted for fiscal year below
   const [events, setEvents] = useState([]);
   const [addMonth, setAddMonth] = useState(null);
   const [newLabel, setNewLabel] = useState("");
@@ -22,7 +22,7 @@ function PlanPage() {
     <PageShell title="スケジュール" watermark={"Sche\ndule"}>
       {/* Annual Timeline */}
       <Rv><Card3 s={{ padding:28, marginBottom:20 }}>
-        <div style={{ fontSize:18, color:"#fff", fontWeight:600, marginBottom:20, fontFamily:hd, letterSpacing:"-.01em" }}>2025年度 年間スケジュール</div>
+        <div style={{ fontSize:18, color:"#fff", fontWeight:600, marginBottom:20, fontFamily:hd, letterSpacing:"-.01em" }}>年間スケジュール</div>
         {/* Timeline bar — clickable months */}
         <div style={{ display:"flex", gap:2, marginBottom:8 }}>
           {months.map((m,i)=>{
@@ -213,7 +213,7 @@ function PdfPreviewEditor({ docId, formDef, editData, updateEdit, formEdits, set
       {/* PDF Page header */}
       <div style={{ padding: "28px 36px 16px", borderBottom: "2px solid #1a4690" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-          <input value={ed.period || "令和7年度"} onChange={e => updateEdit("period", e.target.value)}
+          <input value={ed.period || ""} onChange={e => updateEdit("period", e.target.value)} placeholder="年度"
             style={{ fontSize: 10, color: "#666", border: "1px solid transparent", borderRadius: 4, padding: "2px 6px", fontFamily: bd, outline: "none", background: "transparent" }}
             onFocus={cellFocus} onBlur={e => cellBlur(e, false)} />
           <span style={{ fontSize: 8, color: "#bbb", fontStyle: "italic" }}>クリックで編集可</span>
@@ -417,7 +417,7 @@ function ExportPage() {
     const init = {};
     selected.forEach(id => {
       const item = allItems.find(i => i.id === id);
-      init[id] = { name: item.name, period: "令和7年度", entity: "クライアント名", note: "" };
+      init[id] = { name: item.name, period: "", entity: "", note: "" };
     });
     setEditData(init);
     setStep("confirm");
