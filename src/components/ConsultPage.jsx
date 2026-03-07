@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { C, hd, bd, mono } from "../lib/theme";
-import { Rv, Mag, Card3, PageShell, PressableCard } from "./ui";
+import { Rv, Mag, BtnApprove, Card3, PageShell, PressableCard } from "./ui";
 import { HoloBadge, COMPANY_TYPES } from "./Intake";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -10,10 +10,10 @@ const GEMINI_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 function RProse({ children }) { return <div style={{ fontSize:13, color:C.textSec, lineHeight:1.85, letterSpacing:".01em" }}>{children}</div>; }
 function RStrong({ children }) { return <span style={{ color:"#fff", fontWeight:600 }}>{children}</span>; }
 function RNum({ children, color="#fff" }) { return <span style={{ fontFamily:hd, fontWeight:600, color, letterSpacing:"-.01em" }}>{children}</span>; }
-function RAccent({ children }) { return <span style={{ color:C.purpleLight, fontWeight:500 }}>{children}</span>; }
+function RAccent({ children }) { return <span style={{ color:C.purpleLt, fontWeight:500 }}>{children}</span>; }
 function RCallout({ type="info", children }) {
-  const cls = { info:C.purpleLight, warn:"#F0C866", danger:"#E87070", good:"#7BE0A0" };
-  const c = cls[type]||C.purpleLight;
+  const cls = { info:C.purpleLt, warn:"#F0C866", danger:"#E87070", good:"#7BE0A0" };
+  const c = cls[type]||C.purpleLt;
   return <div style={{ padding:"14px 18px", background:`${c}08`, border:`1px solid ${c}18`, borderRadius:14, marginTop:16, marginBottom:8 }}><RProse>{children}</RProse></div>;
 }
 function RDivider() { return <div style={{ height:1, background:C.border, margin:"20px 0" }} />; }
@@ -805,7 +805,7 @@ ${kpiText}
         <div style={{fontSize:13,color:"#fff",fontWeight:600,marginBottom:14}}>予算別マーケ施策プラン</div>
         {[
           {budget:"月¥10万プラン",roi:"期待ROI: 200%",items:"Google広告（リスティング）に集中投下。キーワード5〜10個で小さく始めてCPA（顧客獲得単価）を測定。3ヶ月で効果検証。月1件の新規獲得が目標。",c:"#7BE0A0"},
-          {budget:"月¥30万プラン（推奨）",roi:"期待ROI: 340%",items:"リスティング¥15万 + コンテンツSEO¥10万 + SNS広告¥5万。3チャネルで分散。リスティングで即効性、コンテンツで中長期のオーガニック流入を構築。月2件の新規獲得が目標。",c:C.purpleLight},
+          {budget:"月¥30万プラン（推奨）",roi:"期待ROI: 340%",items:"リスティング¥15万 + コンテンツSEO¥10万 + SNS広告¥5万。3チャネルで分散。リスティングで即効性、コンテンツで中長期のオーガニック流入を構築。月2件の新規獲得が目標。",c:C.purpleLt},
           {budget:"月¥50万プラン",roi:"期待ROI: 280%",items:"上記 + ウェビナー¥10万 + メールマーケ¥5万 + LP制作¥5万。フルファネル施策。認知→興味→検討→商談の各段階にアプローチ。月3〜4件の新規獲得が目標。",c:"#6BA3FF"},
         ].map((it,i)=><div key={i} style={{padding:"16px 18px",background:"rgba(255,255,255,.01)",border:`1px solid ${C.border}`,borderRadius:14,marginBottom:10}}>
           <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}><span style={{fontSize:14,color:"#fff",fontWeight:600}}>{it.budget}</span><span style={{fontFamily:mono,fontSize:11,color:it.c,fontWeight:600}}>{it.roi}</span></div>
@@ -833,7 +833,7 @@ ${kpiText}
         <RDivider />
         <div style={{fontSize:13,color:"#fff",fontWeight:600,marginBottom:14}}>感度分析 — どこを動かすと一番効くか</div>
         {[
-          {l:"売上+1%",v:"+¥15.4万/月",c:"#7BE0A0",w:77},{l:"原価率▲1%",v:"+¥15.4万/月",c:"#7BE0A0",w:77},{l:"変動費率▲1%",v:"+¥7.0万/月",c:"#6BA3FF",w:35},{l:"固定費▲1%",v:"+¥4.4万/月",c:C.purpleLight,w:22},
+          {l:"売上+1%",v:"+¥15.4万/月",c:"#7BE0A0",w:77},{l:"原価率▲1%",v:"+¥15.4万/月",c:"#7BE0A0",w:77},{l:"変動費率▲1%",v:"+¥7.0万/月",c:"#6BA3FF",w:35},{l:"固定費▲1%",v:"+¥4.4万/月",c:C.purpleLt,w:22},
         ].map((it,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:14,marginBottom:10}}>
           <div style={{width:100,fontSize:11,color:C.textSec,textAlign:"right"}}>{it.l}</div>
           <div style={{flex:1,height:24,background:"rgba(255,255,255,.02)",borderRadius:6,position:"relative"}}><div style={{position:"absolute",top:0,left:0,bottom:0,width:`${it.w}%`,background:`linear-gradient(90deg, ${it.c}30, ${it.c}80)`,borderRadius:6}} /></div>
@@ -844,7 +844,7 @@ ${kpiText}
       () => <div>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:20}}>
           <div style={{padding:"6px 12px",background:"rgba(123,224,160,.06)",border:"1px solid rgba(123,224,160,.1)",borderRadius:8,fontSize:10,fontWeight:600,color:"#7BE0A0",fontFamily:mono}}>月 ¥8.2万 即時削減</div>
-          <div style={{padding:"6px 12px",background:"rgba(168,155,255,.06)",border:"1px solid rgba(168,155,255,.1)",borderRadius:8,fontSize:10,fontWeight:600,color:C.purpleLight,fontFamily:mono}}>月 ¥12万 交渉で削減</div>
+          <div style={{padding:"6px 12px",background:"rgba(168,155,255,.06)",border:"1px solid rgba(168,155,255,.1)",borderRadius:8,fontSize:10,fontWeight:600,color:C.purpleLt,fontFamily:mono}}>月 ¥12万 交渉で削減</div>
         </div>
         <div style={{borderBottom:`1px solid ${C.border}`}}><RBeforeAfter icon={RI.pc} name="SaaS利用料" before="15万" after="10万" save="▼5万">Backlogは過去3ヶ月ログインゼロ→即解約で月5万円。Slack/Adobeはプランダウングレードで月1.8万円。4月のSlack更新が次のタイミング。</RBeforeAfter></div>
         <div style={{borderBottom:`1px solid ${C.border}`}}><RBeforeAfter icon={RI.phone} name="通信費" before="7.2万" after="4.0万" save="▼3.2万">法人携帯8台を格安法人プラン（IIJmioビズ）に。違約金4万円は1.3ヶ月で回収。MNPで番号変更なし。</RBeforeAfter></div>
@@ -935,7 +935,7 @@ ${kpiText}
         ].map((it,i)=><div key={i} style={{padding:"14px 0",borderBottom:i<3?`1px solid ${C.border}`:"none"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
             <span style={{fontSize:14,color:"#fff",fontWeight:600}}>{it.layer}</span>
-            <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontFamily:mono,fontSize:11,color:C.purpleLight}}>{it.amount}</span><span style={{fontFamily:mono,fontSize:11,color:"#7BE0A0",fontWeight:600,background:"rgba(123,224,160,.06)",padding:"3px 8px",borderRadius:6}}>累計{it.cum}</span></div>
+            <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontFamily:mono,fontSize:11,color:C.purpleLt}}>{it.amount}</span><span style={{fontFamily:mono,fontSize:11,color:"#7BE0A0",fontWeight:600,background:"rgba(123,224,160,.06)",padding:"3px 8px",borderRadius:6}}>累計{it.cum}</span></div>
           </div>
           <div style={{height:6,background:"rgba(255,255,255,.03)",borderRadius:3,marginBottom:8}}><div style={{height:"100%",width:`${it.cumPct}%`,background:"linear-gradient(90deg, rgba(123,224,160,.3), rgba(123,224,160,.8))",borderRadius:3,transition:"width .6s"}} /></div>
           <RProse>{it.text}</RProse>
@@ -952,7 +952,7 @@ ${kpiText}
           {item:"クラウドサービス",account:"通信費 or 業務委託費",rate:"100%",tip:"AWS/GCP/Azure等は通信費。GitHub/Figma等は業務委託費。SaaSのサブスクはそのまま経費計上可能。年払いにすると今期に一括計上できて節税タイミングの調整に使える。"},
           {item:"会食・贈答品",account:"交際費",rate:"年800万枠",tip:"現在の利用額¥264万で枠が大幅に余っている。取引先との会食は1人¥5,000以下なら「会議費」として交際費枠を使わずに損金算入可能。5,000円ルールを活用してください。"},
         ].map((it,i)=><div key={i} style={{padding:"12px 0",borderBottom:i<4?`1px solid ${C.border}`:"none"}}>
-          <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}><span style={{fontSize:13,color:"#fff",fontWeight:600}}>{it.item}</span><span style={{fontSize:9,color:C.purpleLight,fontWeight:600,background:"rgba(168,155,255,.06)",padding:"2px 8px",borderRadius:4}}>{it.account}</span><span style={{fontSize:9,color:"#7BE0A0",fontWeight:600,background:"rgba(123,224,160,.06)",padding:"2px 8px",borderRadius:4}}>按分{it.rate}</span></div>
+          <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}><span style={{fontSize:13,color:"#fff",fontWeight:600}}>{it.item}</span><span style={{fontSize:9,color:C.purpleLt,fontWeight:600,background:"rgba(168,155,255,.06)",padding:"2px 8px",borderRadius:4}}>{it.account}</span><span style={{fontSize:9,color:"#7BE0A0",fontWeight:600,background:"rgba(123,224,160,.06)",padding:"2px 8px",borderRadius:4}}>按分{it.rate}</span></div>
           <RProse>{it.tip}</RProse>
         </div>)}
       </div>,
@@ -1049,14 +1049,14 @@ ${kpiText}
           {title:"少額減価償却資産の特例",tag:"全額即時経費（残枠¥172万）",text:"30万円未満の資産は全額経費計上可能（年300万円まで）。期末までに活用しなければ枠は消滅。PC、モニター、ソフトウェアライセンス等が該当。"},
           {title:"中小企業投資促進税制",tag:"特別償却30% or 税額控除7%",text:"機械装置160万円以上、ソフトウェア70万円以上が対象。現在の利益率なら税額控除が有利。500万円の設備で¥35万の直接減税。"},
           {title:"中小企業経営強化税制",tag:"即時償却 or 税額控除10%",text:"経営力向上計画の認定（約1ヶ月）が必要。DX投資が対象。今期適用なら早急に着手。"},
-        ].map((it,i)=><div key={i} style={{padding:"14px 0",borderBottom:i<2?`1px solid ${C.border}`:"none"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}><span style={{fontSize:14,color:"#fff",fontWeight:600}}>{it.title}</span><span style={{fontSize:10,color:C.purpleLight,fontWeight:500,background:"rgba(168,155,255,.06)",padding:"3px 8px",borderRadius:6}}>{it.tag}</span></div><RProse>{it.text}</RProse></div>)}
+        ].map((it,i)=><div key={i} style={{padding:"14px 0",borderBottom:i<2?`1px solid ${C.border}`:"none"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}><span style={{fontSize:14,color:"#fff",fontWeight:600}}>{it.title}</span><span style={{fontSize:10,color:C.purpleLt,fontWeight:500,background:"rgba(168,155,255,.06)",padding:"3px 8px",borderRadius:6}}>{it.tag}</span></div><RProse>{it.text}</RProse></div>)}
         <RDivider />
         <div style={{fontSize:13,color:"#fff",fontWeight:600,marginBottom:14}}>申請可能な補助金</div>
         {[
           {l:"IT導入補助金",amt:"最大¥450万",pct:"費用の1/2〜3/4",d:"ソフトウェア・クラウド導入。申請は年数回の公募。"},
           {l:"小規模事業者持続化補助金",amt:"最大¥200万",pct:"費用の2/3",d:"販路開拓（Web制作・広告）。商工会議所の支援が必要。"},
           {l:"キャリアアップ助成金",amt:"1人¥57万",pct:"-",d:"非正規→正規転換。パート雇用→正社員化で申請可能。"},
-        ].map((it,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"10px 0",borderBottom:i<2?`1px solid ${C.border}`:"none"}}><div><div style={{fontSize:13,color:"#fff",fontWeight:500}}>{it.l}</div><div style={{fontSize:11,color:C.textMut}}>{it.d}</div></div><div style={{textAlign:"right"}}><div style={{fontFamily:hd,fontSize:14,color:C.purpleLight}}>{it.amt}</div><div style={{fontSize:10,color:C.textMut}}>{it.pct}</div></div></div>)}
+        ].map((it,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"10px 0",borderBottom:i<2?`1px solid ${C.border}`:"none"}}><div><div style={{fontSize:13,color:"#fff",fontWeight:500}}>{it.l}</div><div style={{fontSize:11,color:C.textMut}}>{it.d}</div></div><div style={{textAlign:"right"}}><div style={{fontFamily:hd,fontSize:14,color:C.purpleLt}}>{it.amt}</div><div style={{fontSize:10,color:C.textMut}}>{it.pct}</div></div></div>)}
       </div>,
     ],
 
@@ -1066,7 +1066,7 @@ ${kpiText}
         <div style={{display:"grid",gridTemplateColumns:"1fr 140px 140px",gap:0,marginBottom:20}}>
           <div style={{padding:"10px 0",borderBottom:`1px solid ${C.border}`}} />
           <div style={{padding:"10px 12px",borderBottom:`1px solid ${C.border}`,fontSize:10,fontWeight:600,color:C.textMut,textAlign:"center",fontFamily:mono}}>個人事業</div>
-          <div style={{padding:"10px 12px",borderBottom:`1px solid ${C.border}`,fontSize:10,fontWeight:600,color:C.purpleLight,textAlign:"center",fontFamily:mono,background:"rgba(139,123,244,.03)"}}>法人</div>
+          <div style={{padding:"10px 12px",borderBottom:`1px solid ${C.border}`,fontSize:10,fontWeight:600,color:C.purpleLt,textAlign:"center",fontFamily:mono,background:"rgba(139,123,244,.03)"}}>法人</div>
           {[{l:"税額合計",a:"¥855万",b:"¥677万"},{l:"給与所得控除",a:"なし",b:"¥190万"},{l:"赤字繰越",a:"3年",b:"10年"},{l:"経費範囲",a:"限定的",b:"社宅・日当・退職金"}].map((r,i)=><React.Fragment key={i}>
             <div style={{padding:"12px 0",borderBottom:i<3?`1px solid ${C.border}`:"none",fontSize:12,color:C.textSec}}>{r.l}</div>
             <div style={{padding:"12px",borderBottom:i<3?`1px solid ${C.border}`:"none",fontSize:13,color:C.textMut,textAlign:"center",fontFamily:hd}}>{r.a}</div>
@@ -1277,7 +1277,7 @@ ${cardKpis || "データなし"}
         {pages[rci] ? pages[rci]() : <RProse>分析データを読み込んでいます…</RProse>}
         {pages.length > 1 && <div style={{ display:"flex", justifyContent:"center", gap:8, marginTop:24, paddingTop:16, borderTop:`1px solid ${C.border}` }}>
           {pages.map((_,i) => (
-            <Mag key={i} onClick={()=>setRci(i)} s={{ width:32, height:32, borderRadius:"50%", border:rci===i?`1.5px solid ${C.purpleLight}`:`1.5px solid ${C.border}`, background:rci===i?"rgba(139,123,244,.1)":"transparent", color:rci===i?C.purpleLight:C.textMut, fontFamily:mono, fontSize:11, fontWeight:600, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>{i+1}</Mag>
+            <Mag key={i} onClick={()=>setRci(i)} s={{ width:32, height:32, borderRadius:"50%", border:rci===i?`1.5px solid ${C.purpleLt}`:`1.5px solid ${C.border}`, background:rci===i?"rgba(139,123,244,.1)":"transparent", color:rci===i?C.purpleLt:C.textMut, fontFamily:mono, fontSize:11, fontWeight:600, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>{i+1}</Mag>
           ))}
         </div>}
       </Card3></Rv>
