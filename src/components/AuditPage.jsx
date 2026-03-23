@@ -627,6 +627,52 @@ function AuditPage() {
     return <NumericAuditPage onBack={() => setMode(null)} />;
   }
 
+  if (mode === "upload" && !results && !analyzing) {
+    return (
+      <PageShell title="書類チェック" watermark={"Che\nck"}>
+        <Rv><div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
+          <button type="button" onClick={back} style={{ padding:"6px 14px", borderRadius:100, border:`1px solid ${C.border}`, background:"transparent", color:C.textMut, fontSize:10, fontWeight:500, cursor:"pointer", fontFamily:bd }}>← 戻る</button>
+          <span style={{ fontSize:12, color:C.textSec, fontWeight:500, letterSpacing:".04em" }}>書類をアップロード</span>
+        </div></Rv>
+        <Rv d={10}><Card3 s={{ padding:"32px 24px", textAlign:"center", marginBottom:20 }}>
+          <div
+            onDragOver={e => { e.preventDefault(); setDragging(true); }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files); }}
+            style={{ border: dragging ? "2px solid rgba(139,123,244,.5)" : "2px dashed rgba(139,123,244,.15)", borderRadius:20, padding:"40px 24px", background: dragging ? "rgba(139,123,244,.06)" : "transparent", transition:"all .3s", cursor:"pointer" }}
+            onClick={() => { const inp = document.createElement("input"); inp.type="file"; inp.multiple=true; inp.accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv"; inp.onchange=e=>addFiles(e.target.files); inp.click(); }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(168,155,255,.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display:"block", margin:"0 auto 10px" }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <div style={{ fontSize:15, color:"rgba(196,184,255,.6)", fontWeight:700 }}>ドラッグ＆ドロップ</div>
+            <div style={{ fontSize:12, color:"rgba(168,155,255,.3)", marginTop:8 }}>またはクリックしてファイルを選択</div>
+          </div>
+          {uploadFiles.length > 0 && (
+            <div style={{ marginTop:20, textAlign:"left" }}>
+              <div style={{ fontSize:10, color:C.textMut, fontWeight:500, letterSpacing:".1em", marginBottom:8 }}>アップロード済み ({uploadFiles.length}件)</div>
+              {uploadFiles.map((f,i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 12px", borderRadius:12, background:"rgba(255,255,255,.02)", marginBottom:4 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7BE0A0" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span style={{ fontSize:11, color:"#E0DAFF", flex:1 }}>{f.name}</span>
+                  <span style={{ fontSize:10, color:C.textMut }}>{f.size}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card3></Rv>
+        <Rv d={20}><Mag onClick={startUploadCheck} s={{
+          padding:"14px 40px", borderRadius:100,
+          border: uploadFiles.length > 0 ? "1.5px solid rgba(139,123,244,.5)" : "1.5px solid rgba(255,255,255,.06)",
+          background: uploadFiles.length > 0 ? "rgba(139,123,244,.08)" : "transparent",
+          color: uploadFiles.length > 0 ? "#C4B8FF" : C.textMut,
+          fontSize:13, fontWeight:700, cursor: uploadFiles.length > 0 ? "pointer" : "default",
+          fontFamily:bd, letterSpacing:".06em",
+          boxShadow: uploadFiles.length > 0 ? "0 0 16px rgba(139,123,244,.35)" : "none",
+          width:"100%", textAlign:"center",
+        }}>チェックを開始</Mag></Rv>
+      </PageShell>
+    );
+  }
+
   if (analyzing) {
     return (
       <PageShell title="書類チェック" watermark={"Che\nck"}>

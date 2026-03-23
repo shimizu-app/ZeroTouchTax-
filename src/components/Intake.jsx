@@ -572,12 +572,13 @@ function Intake({ onDone }) {
   const [cur, setCur] = useState("");
   const [files, setFiles] = useState({});
   const [diagnosedType, setDiagnosedType] = useState(null);
+  const fileInputRef = useRef(null);
 
   const QS = [
     // Phase 1: Basic
     { k: "company", q: "会社名を\n教えてください", ph: "株式会社〇〇", t: "text", phase: "BASIC INFO" },
     { k: "rep", q: "代表者のお名前は？", ph: "山田 太郎", t: "text", phase: "BASIC INFO" },
-    { k: "type", q: "事業形態を\n選んでください", t: "sel", opts: ["株式会社", "合同会社", "個人事業主", "フリーランス"], phase: "BASIC INFO" },
+    { k: "type", q: "事業形態を\n選んでください", t: "sel", opts: ["株式会社", "合同会社", "有限会社", "個人事業主", "フリーランス"], phase: "BASIC INFO" },
     { k: "industry", q: "業種を\n教えてください", t: "sel", opts: ["IT・通信", "飲食・フード", "建設・不動産", "医療・福祉", "小売・EC", "製造", "コンサル・士業", "その他"], phase: "BASIC INFO" },
     { k: "sub_industry", q: "具体的な業態を\n選んでください", t: "sel", dynamic: true, phase: "BASIC INFO" },
     { k: "year", q: "設立年は？", ph: "2020", t: "text", phase: "BASIC INFO" },
@@ -728,7 +729,7 @@ function Intake({ onDone }) {
 
               {/* Input */}
               {q.t === "text" && (
-                <input value={cur} onChange={e => setCur(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && ok) goNext(); }} placeholder={q.ph} autoFocus
+                <input value={cur} onChange={e => setCur(e.target.value)} placeholder={q.ph} autoFocus
                   style={{ width: "100%", padding: "18px 0", border: "none", borderBottom: "1px solid rgba(139,123,244,.25)", background: "transparent", fontFamily: bd, fontSize: 20, color: "#E0DAFF", outline: "none", boxSizing: "border-box", caretColor: "#A89BFF", textShadow: "0 0 10px rgba(168,155,255,.3)" }} />
               )}
 
@@ -789,18 +790,15 @@ function Intake({ onDone }) {
                     </div>
                   ) : (
                     <div>
+                      <input ref={fileInputRef} type="file" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style={{ display: "none" }} onChange={e => { const f = e.target.files; if (f && f.length) setFiles(prev => ({ ...prev, [q.k]: f[0].name })); e.target.value = ""; }} />
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(168,155,255,.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block", margin: "0 auto 10px", filter: "drop-shadow(0 0 12px rgba(139,123,244,.3))" }}><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
                       <div style={{ fontSize: 15, color: "rgba(196,184,255,.6)", fontWeight: 700, textShadow: "0 0 10px rgba(168,155,255,.3)" }}>ドラッグ＆ドロップ</div>
                       <div style={{ fontSize: 12, color: "rgba(168,155,255,.3)", margin: "8px 0 16px" }}>または</div>
                       <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
-                        <button type="button" onClick={() => setFiles(prev => ({ ...prev, [q.k]: "document.pdf" }))}
+                        <button type="button" onClick={() => fileInputRef.current && fileInputRef.current.click()}
                           style={{ padding: "10px 24px", border: "1.5px solid rgba(139,123,244,.25)", borderRadius: 100, background: "transparent", fontSize: 13, fontWeight: 700, color: "rgba(196,184,255,.6)", cursor: "pointer", fontFamily: bd, display: "flex", alignItems: "center", gap: 8 }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
                           ファイル選択</button>
-                        <button type="button" onClick={() => setFiles(prev => ({ ...prev, [q.k]: "photo.jpg" }))}
-                          style={{ padding: "10px 24px", border: "1.5px solid rgba(139,123,244,.4)", borderRadius: 100, background: "rgba(139,123,244,.08)", fontSize: 13, fontWeight: 600, color: "#C4B8FF", cursor: "pointer", fontFamily: bd, display: "flex", alignItems: "center", gap: 8, boxShadow: "0 0 12px rgba(139,123,244,.2)" }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A89BFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                          Scan</button>
                       </div>
                     </div>
                   )}
@@ -812,6 +810,10 @@ function Intake({ onDone }) {
                 {step > 0 ? (
                   <Mag onClick={goBack} s={{ padding: "14px 32px", border: "1.5px solid rgba(255,255,255,.08)", borderRadius: 100, background: "rgba(255,255,255,.02)", color: "rgba(196,184,255,.5)", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: bd, letterSpacing: ".04em", textShadow: "0 0 6px rgba(168,155,255,.2)" }}>← 戻る</Mag>
                 ) : <div />}
+                <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                {!ok && q.t !== "file" && (
+                  <Mag onClick={goNext} s={{ padding: "14px 28px", borderRadius: 100, border: "1.5px solid rgba(255,255,255,.08)", background: "transparent", color: "rgba(196,184,255,.4)", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: bd, letterSpacing: ".04em" }}>スキップ →</Mag>
+                )}
                 <Mag onClick={() => { if (ok || q.t === "file") goNext(); }} s={{
                   padding: "14px 40px", borderRadius: 100,
                   border: (ok || q.t === "file") ? "1.5px solid rgba(139,123,244,.5)" : "1.5px solid rgba(255,255,255,.06)",
@@ -824,6 +826,7 @@ function Intake({ onDone }) {
                 }}>
                   {q.t === "file" && !files[q.k] ? "スキップ →" : step < total - 1 ? "次へ →" : "完了 →"}
                 </Mag>
+                </div>
               </div>
             </div>
           </div>

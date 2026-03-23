@@ -22,6 +22,7 @@ export default function App() {
   const [goalMode, setGoalMode] = useState("general");
   const [cmdK, setCmdK] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [companyKey, setCompanyKey] = useState(0);
 
   // Global ⌘K listener
   useEffect(() => {
@@ -33,24 +34,24 @@ export default function App() {
   }, []);
 
   if (scr === "login") return <Login onLogin={() => setScr("workspace")} />;
-  if (scr === "workspace") return <Workspace onSelect={(id) => { setActiveCompany(id); setScr("home"); }} onNew={() => setScr("intake")} />;
+  if (scr === "workspace") return <Workspace onSelect={(id) => { setActiveCompany(id); setCompanyKey(k => k + 1); setScr("home"); }} onNew={() => setScr("intake")} />;
   if (scr === "intake") return <Intake onDone={() => { setActiveCompany("new"); setScr("home"); }} />;
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden", background: "#050508", padding: "0 0 0 0" }}>
       <link href={FONT} rel="stylesheet" />
       <Side scr={scr} setScr={(s) => { if (s === "workspace") { setScr("workspace"); return; } setScr(s); }} open={so} setOpen={setSo} onNotif={() => setNotifOpen(true)} onCmdK={() => setCmdK(true)} notifCount={8} />
-      <div style={{ flex:1, overflow:"hidden", borderRadius:28, margin:"8px 8px 8px 0", position:"relative", background:C.bg, boxShadow:"inset 0 0 0 1px rgba(139,123,244,.04)" }}>
-      {scr === "home" && <Home goTo={setScr} goalMode={goalMode} />}
-      {scr === "tasks" && <TasksPage goTo={setScr} />}
-      {scr === "books" && <BooksPage />}
-      {scr === "filebox" && <FileBoxPage />}
-      {scr === "docs" && <DocsPage />}
-      {scr === "export" && <ExportPage />}
-      {scr === "issue" && <DocIssuePage />}
-      {scr === "plan" && <PlanPage />}
-      {scr === "audit" && <AuditPage />}
-      {scr === "consult" && <ConsultPage goalMode={goalMode} setGoalMode={setGoalMode} />}
-      {scr === "input" && <InputPage />}
+      <div key={companyKey} style={{ flex:1, overflow:"hidden", borderRadius:28, margin:"8px 8px 8px 0", position:"relative", background:C.bg, boxShadow:"inset 0 0 0 1px rgba(139,123,244,.04)" }}>
+      {scr === "home" && <Home goTo={setScr} goalMode={goalMode} activeCompany={activeCompany} />}
+      {scr === "tasks" && <TasksPage goTo={setScr} activeCompany={activeCompany} />}
+      {scr === "books" && <BooksPage activeCompany={activeCompany} />}
+      {scr === "filebox" && <FileBoxPage activeCompany={activeCompany} />}
+      {scr === "docs" && <DocsPage activeCompany={activeCompany} />}
+      {scr === "export" && <ExportPage activeCompany={activeCompany} />}
+      {scr === "issue" && <DocIssuePage activeCompany={activeCompany} />}
+      {scr === "plan" && <PlanPage activeCompany={activeCompany} />}
+      {scr === "audit" && <AuditPage activeCompany={activeCompany} />}
+      {scr === "consult" && <ConsultPage goalMode={goalMode} setGoalMode={setGoalMode} activeCompany={activeCompany} />}
+      {scr === "input" && <InputPage activeCompany={activeCompany} />}
       {scr === "settings" && <SettingsPage />}
 
       </div>
